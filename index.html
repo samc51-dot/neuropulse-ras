@@ -349,36 +349,35 @@
   </header>
 
   <main>
-    <div class="editorial-grid">
-      <!-- Executive Summary Card -->
-      <section class="card">
-        <span class="card-label">[ 01 / Overview ]</span>
-        <h2>Executive Summary</h2>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">
-          Smart Beats is a clinical audio platform that merges neurologic music therapy with acoustic signal processing. By replacing flat metronome pulses with frequency-accented auditory stimuli, the platform enhances motor cortex entrainment, helping patients achieve faster motor control rehabilitation and higher rhythmic accuracy during physical therapy.
-        </p>
-      </section>
+    <!-- Executive Clinical Abstract -->
+    <section class="card">
+      <span class="card-label">[ 01 / Research Abstract ]</span>
+      <h2>Abstract: How Custom Beats Help the Body Move in Better Rhythm</h2>
+      
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+        <strong style="color: var(--text);">The Problem:</strong> Neurologic Music Therapy uses audio beats to help people control their body movements by training the brain to match a rhythm. However, most therapies just use a basic, plain metronome click, which isn't always easy for the brain to follow.
+      </p>
 
-      <!-- Executive Clinical Abstract -->
-      <section class="card">
-        <span class="card-label">[ 02 / Abstract ]</span>
-        <h2>Project Abstract</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
-          <strong style="color: var(--text);">Clinical Need:</strong> Neurologic Music Therapy uses Rhythmic Auditory Stimulation (RAS) to train motor control. Traditional clinical tools rely on standard metronome clicks, which lack the acoustic cues needed for optimal neural entrainment.
-        </p>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
-          <strong style="color: var(--text);">Methodology:</strong> We engineered a Python-based parametric sound generator to produce frequency-accented auditory cues. 25 trial participants completed motor synchronization testing measuring timing error variance in milliseconds.
-        </p>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+        <strong style="color: var(--text);">What I Did:</strong> I built a computer program in Python that creates custom music tracks with special drum accents and clearer beats. Then, I tested 25 people by having them tap along to both a standard metronome click and my custom music tracks to measure their timing accuracy in milliseconds.
+      </p>
 
-        <div class="stat-box">
-          Primary Outcome: 18.4% Variance Reduction in Motor Timing Accuracy
-        </div>
-      </section>
-    </div>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+        <strong style="color: var(--text);">What I Found:</strong> People kept much better rhythm when listening to the custom music tracks. Their tapping timing errors dropped by 18.4% compared to the basic metronome.
+      </p>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">
+        <strong style="color: var(--text);">Why It Matters:</strong> Adding clearer musical beats makes it much easier for the brain and body to stay on rhythm, opening up better, low-cost digital tools for movement therapy.
+      </p>
+
+      <div class="stat-box">
+        Primary Outcome: 18.4% Reduction in Tapping Timing Error
+      </div>
+    </section>
 
     <!-- Browser Synthesized Audio Controls -->
     <section class="card">
-      <span class="card-label">[ 03 / Interactive Audio ]</span>
+      <span class="card-label">[ 02 / Interactive Audio ]</span>
       <h2>Auditory Stimuli Comparison</h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Test the acoustic difference between standard clinical clicks and parametric auditory stimulation tracks (15-second samples):</p>
       
@@ -395,7 +394,7 @@
 
     <!-- Interactive Tapping Test -->
     <section class="card">
-      <span class="card-label">[ 04 / Live Evaluation ]</span>
+      <span class="card-label">[ 03 / Live Evaluation ]</span>
       <h2>Motor Synchronization Assessment</h2>
 
       <!-- Instructions Step-by-Step Grid -->
@@ -403,7 +402,7 @@
         <div class="step-card">
           <span class="step-number">01</span>
           <span class="step-title">Select Audio Sample</span>
-          <p class="step-desc">Scroll up to Section 03 and click play on either the Metronome or RAS Beat.</p>
+          <p class="step-desc">Scroll up to Section 02 and click play on either the Metronome or RAS Beat.</p>
         </div>
         <div class="step-card">
           <span class="step-number">02</span>
@@ -413,7 +412,7 @@
         <div class="step-card">
           <span class="step-number">03</span>
           <span class="step-title">Review Your Score</span>
-          <p class="step-desc">When the sample ends, check your live timing error recorded in Section 05 below.</p>
+          <p class="step-desc">When the sample ends, check your live timing error recorded in Section 04 below.</p>
         </div>
       </div>
 
@@ -426,7 +425,7 @@
     <div class="editorial-grid">
       <!-- User Live Assessment Chart -->
       <section class="card">
-        <span class="card-label">[ 05 / User Metrics ]</span>
+        <span class="card-label">[ 04 / User Metrics ]</span>
         <h2>Your Live Performance</h2>
         <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Calculated motor timing variance (ms) recorded during playback:</p>
         <canvas id="userChart"></canvas>
@@ -434,7 +433,7 @@
 
       <!-- Interactive Data Chart -->
       <section class="card">
-        <span class="card-label">[ 06 / Clinical Data ]</span>
+        <span class="card-label">[ 05 / Clinical Data ]</span>
         <h2>Trial Synchronization Metrics</h2>
         <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Mean motor timing error in milliseconds across participant cohorts:</p>
         <canvas id="resultsChart"></canvas>
@@ -443,7 +442,7 @@
 
     <!-- Project Architecture -->
     <section class="card">
-      <span class="card-label">[ 07 / Architecture ]</span>
+      <span class="card-label">[ 06 / Architecture ]</span>
       <h2>Therapeutic Framework</h2>
       <ul>
         <li><strong>Parametric Signal Generation:</strong> Custom Python audio processing pipeline generating frequency-accented rhythms.</li>
@@ -454,7 +453,7 @@
 
     <!-- Research Progress Roadmap -->
     <section class="card">
-      <span class="card-label">[ 08 / Roadmap ]</span>
+      <span class="card-label">[ 07 / Roadmap ]</span>
       <h2>Research & Development Progress</h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Current milestones achieved and ongoing clinical trial development:</p>
       
