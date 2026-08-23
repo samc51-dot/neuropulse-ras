@@ -79,6 +79,11 @@
       margin-bottom: 10px;
     }
 
+    audio {
+      width: 100%;
+      margin-top: 8px;
+    }
+
     footer {
       text-align: center;
       padding: 40px 20px;
@@ -109,6 +114,30 @@
       </div>
     </section>
 
+    <!-- STEP 2: Audio Players -->
+    <section class="card">
+      <h2>Listen to Sample Audio Cues</h2>
+      <p>Standard Metronome (120 BPM):</p>
+      <audio controls src="test_beat.wav"></audio>
+
+      <p style="margin-top: 15px;">Custom RAS Track (120 BPM):</p>
+      <audio controls src="test_beat.wav"></audio>
+    </section>
+
+    <!-- STEP 3: Interactive Tapping Test -->
+    <section class="card">
+      <h2>Live Rhythm Accuracy Test</h2>
+      <p>Click the button below in a steady rhythm (every half second) to test your motor timing precision:</p>
+      <div style="text-align: center; padding: 20px; background: #0f172a; border-radius: 8px;">
+        <button id="tapButton" style="background: #0284c7; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 8px; cursor: pointer;">
+          Tap Here in Rhythm!
+        </button>
+        <div id="resultDisplay" style="margin-top: 15px; font-size: 1.1rem; color: #38bdf8; font-weight: bold;">
+          Taps: 0 | Avg Offset: 0 ms
+        </div>
+      </div>
+    </section>
+
     <section class="card">
       <h2>How It Works</h2>
       <ul>
@@ -132,6 +161,32 @@
   <footer>
     <p>Smart Beats Passion Project &bull; Open Source on <a href="https://github.com">GitHub</a></p>
   </footer>
+
+  <!-- STEP 3 JavaScript Logic -->
+  <script>
+    let tapTimes = [];
+    const tapButton = document.getElementById('tapButton');
+    const resultDisplay = document.getElementById('resultDisplay');
+
+    tapButton.addEventListener('click', () => {
+      const now = performance.now();
+      tapTimes.push(now);
+
+      if (tapTimes.length > 1) {
+        let intervals = [];
+        for (let i = 1; i < tapTimes.length; i++) {
+          intervals.push(tapTimes[i] - tapTimes[i - 1]);
+        }
+        
+        let totalError = intervals.reduce((acc, val) => acc + Math.abs(val - 500), 0);
+        let avgError = Math.round(totalError / intervals.length);
+
+        resultDisplay.innerText = `Taps: ${tapTimes.length} | Avg Timing Variance: ${avgError} ms`;
+      } else {
+        resultDisplay.innerText = "Keep tapping steady...";
+      }
+    });
+  </script>
 
 </body>
 </html>
