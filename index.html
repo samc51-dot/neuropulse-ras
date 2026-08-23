@@ -135,7 +135,7 @@
       gap: 8px;
     }
 
-    .audio-btn:hover {
+    .audio-btn:hover:not(:disabled) {
       background: #254257;
       border-color: var(--cyan);
     }
@@ -148,8 +148,14 @@
       box-shadow: 0 0 15px var(--emerald-glow);
     }
 
-    .audio-btn.accent-btn:hover {
+    .audio-btn.accent-btn:hover:not(:disabled) {
       background: #34d399;
+    }
+
+    .audio-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
     }
 
     .interactive-container {
@@ -259,12 +265,12 @@
       
       <div style="margin-bottom: 20px;">
         <p style="margin-bottom: 4px; font-weight: 500;">Control Baseline: Flat Metronome Click</p>
-        <button class="audio-btn" onclick="playMetronome()">&#9654; Play 15s Metronome Sample</button>
+        <button id="metroBtn" class="audio-btn" onclick="playMetronome()">&#9654; Play 15s Metronome Sample</button>
       </div>
 
       <div>
         <p style="margin-bottom: 4px; font-weight: 500;">Parametric Intervention: Accented RAS Track</p>
-        <button class="audio-btn accent-btn" onclick="playRASBeat()">&#9654; Play 15s Parametric RAS Beat</button>
+        <button id="rasBtn" class="audio-btn accent-btn" onclick="playRASBeat()">&#9654; Play 15s Parametric RAS Beat</button>
       </div>
     </section>
 
@@ -303,12 +309,53 @@
   <!-- Web Audio & Analytics Logic -->
   <script>
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let isPlaying = false;
+    let tapTimes = [];
+    const tapButton = document.getElementById('tapButton');
+    const resultDisplay = document.getElementById('resultDisplay');
+
+    function resetAssessment() {
+      tapTimes = [];
+      resultDisplay.innerText = "Taps Recorded: 0 | Timing Variance: 0 ms";
+    }
+
+    function setAudioButtonsState(disabled, playingBtn = null) {
+      const metroBtn = document.getElementById('metroBtn');
+      const rasBtn = document.getElementById('rasBtn');
+
+      metroBtn.disabled = disabled;
+      rasBtn.disabled = disabled;
+
+      if (disabled && playingBtn) {
+        playingBtn.innerText = ' Playing (15s)...';
+      } else {
+        metroBtn.innerHTML = '&#9654; Play 15s Metronome Sample';
+        rasBtn.innerHTML = '&#9654; Play 15s Parametric RAS Beat';
+      }
+    }
+
+    function lockPlayback(btnElement, durationMs) {
+      isPlaying = true;
+      setAudioButtonsState(true, btnElement);
+
+      setTimeout(() => {
+        isPlaying = false;
+        setAudioButtonsState(false);
+        resetAssessment(); // Resets the motor test when audio sample ends
+      }, durationMs);
+    }
 
     // 1. Control Metronome Synthesizer (15 Seconds = 30 beats at 120 BPM)
     function playMetronome() {
+      if (isPlaying) return;
       if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const btn = document.getElementById('metroBtn');
       const interval = 0.5; // 120 BPM
       const totalBeats = 30; // 30 beats * 0.5s = 15 seconds
+      const durationMs = totalBeats * interval * 1000;
+
+      lockPlayback(btn, durationMs);
 
       for (let i = 0; i < totalBeats; i++) {
         const osc = audioCtx.createOscillator();
@@ -329,9 +376,15 @@
 
     // 2. Parametric RAS Synthesizer (15 Seconds = 30 beats at 120 BPM)
     function playRASBeat() {
+      if (isPlaying) return;
       if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const btn = document.getElementById('rasBtn');
       const interval = 0.5; // 120 BPM
       const totalBeats = 30; // 30 beats * 0.5s = 15 seconds
+      const durationMs = totalBeats * interval * 1000;
+
+      lockPlayback(btn, durationMs);
 
       for (let i = 0; i < totalBeats; i++) {
         let startTime = audioCtx.currentTime + (i * interval);
@@ -364,10 +417,6 @@
     }
 
     // Tapping Test Logic
-    let tapTimes = [];
-    const tapButton = document.getElementById('tapButton');
-    const resultDisplay = document.getElementById('resultDisplay');
-
     tapButton.addEventListener('click', () => {
       const now = performance.now();
       tapTimes.push(now);
