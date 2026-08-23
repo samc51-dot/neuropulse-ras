@@ -244,8 +244,13 @@
       transition: background 0.2s ease;
     }
 
-    button.action-btn:hover {
+    button.action-btn:hover:not(:disabled) {
       background: #333333;
+    }
+
+    button.action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .result-display {
@@ -266,23 +271,22 @@
       display: block;
     }
 
-    /* Reaction Target Box Styling */
-    #reactionBox {
+    /* Custom Interactive Target Boxes */
+    .interactive-status-box {
       width: 100%;
-      height: 160px;
+      height: 120px;
       background-color: var(--card-bg);
       border: 1px solid var(--border);
       display: flex;
       justify-content: center;
       align-items: center;
       margin-bottom: 20px;
-      cursor: pointer;
       user-select: none;
       transition: background-color 0.1s ease;
     }
 
-    #reactionBoxText {
-      font-size: 1rem;
+    .status-text {
+      font-size: 0.95rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       font-weight: 600;
@@ -404,7 +408,7 @@
       </p>
 
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">
-        <strong style="color: var(--text);">Why It Matters:</strong> Adding clearer musical beats makes it much easier for the brain and body to stay on rhythm, opening up better, low cost digital tools for movement therapy.
+        <strong style="color: var(--text);">Why It Matters:</strong> Adding clearer musical beats makes it much easier for the brain and body to stay on rhythm, opening up better, low-cost digital tools for movement therapy.
       </p>
 
       <div class="stat-box">
@@ -500,60 +504,102 @@
       </section>
     </div>
 
-    <!-- Audio & Visual Reaction Speed Test (Moved below charts) -->
+    <!-- Section 06: Phase-Resetting & Internal Clock Test (Test 4) -->
     <section class="card" style="margin-top: 40px;">
-      <span class="card-label">[ 06 / Reaction Speed Test ]</span>
-      <h2>Audio & Visual Reflex Speed Test</h2>
+      <span class="card-label">[ 06 / Rhythmic Prediction ]</span>
+      <h2>Phase-Resetting & Internal Clock Test</h2>
 
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
-        <strong style="color: var(--text);">What It Does:</strong> Measures how fast your nervous system responds to a combined sight and sound trigger. It waits a random interval, then flashes the screen while playing a sharp audio accent pulse, measuring your reaction speed down to the millisecond.
+        <strong style="color: var(--text);">What It Is:</strong> Measures your brain's internal rhythm generator. A steady beat plays to entrain your motor system, then suddenly cuts silent for 3 full beats. You must keep tapping in exact tempo through the silence until the audio returns.
       </p>
 
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
-        <strong style="color: var(--text);">What It Helps With:</strong> Evaluating multisensory integration: how efficiently your brain processes sound and visual cues together to initiate fast motor responses. Stronger auditory cues can speed up neural processing, which is key in physical rehabilitation and motor priming.
+        <strong style="color: var(--text);">What It Helps With:</strong> Evaluating internal motor clock accuracy and predictive timing without relying on constant external cues—critical for gait stability in Parkinson's disease and post-stroke movement recovery.
       </p>
 
       <div class="instruction-steps">
         <div class="step-card">
           <span class="step-number">01</span>
-          <span class="step-title">Press Start Test</span>
-          <p class="step-desc">Click the button below to arm the test. The box will turn dark while waiting.</p>
+          <span class="step-title">Start Audio Pace</span>
+          <p class="step-desc">Click "Start Internal Clock Test". Match your taps to the audible beat (500ms tempo).</p>
         </div>
         <div class="step-card">
           <span class="step-number">02</span>
-          <span class="step-title">Watch & Listen</span>
-          <p class="step-desc">Wait 2–5 seconds until the box flashes white with an audio cue pulse.</p>
+          <span class="step-title">Keep Tapping In Silence</span>
+          <p class="step-desc">When the audio cuts out, do not stop. Continue tapping at the exact same rhythm.</p>
         </div>
         <div class="step-card">
           <span class="step-number">03</span>
-          <span class="step-title">Click As Fast As You Can</span>
-          <p class="step-desc">Tap the target box instantly when it lights up to calculate your reaction speed in ms.</p>
+          <span class="step-title">Check Timing Drift</span>
+          <p class="step-desc">Review your millisecond timing drift when the sound returns to see how well your internal clock held tempo.</p>
         </div>
       </div>
 
       <div class="interactive-container">
-        <div id="reactionBox">
-          <span id="reactionBoxText">Click "Start Test" Below</span>
+        <div id="clockBox" class="interactive-status-box">
+          <span id="clockBoxText" class="status-text">Click "Start Internal Clock Test" Below</span>
         </div>
-        <button id="startReactionBtn" class="action-btn" onclick="startReactionTest()">Start Test</button>
-        <div id="reactionResultDisplay" class="result-display">Reaction Time: -- ms</div>
+        <button id="startClockBtn" class="action-btn" onclick="startClockTest()">Start Internal Clock Test</button>
+        <button id="clockTapBtn" class="action-btn" style="display:none;" onclick="recordClockTap()">TAP RHYTHM</button>
+        <div id="clockResultDisplay" class="result-display">Internal Drift: -- ms</div>
+      </div>
+    </section>
+
+    <!-- Section 07: Off-Beat Suppression Test (Test 1) -->
+    <section class="card">
+      <span class="card-label">[ 07 / Inhibitory Control ]</span>
+      <h2>Off-Beat Motor Suppression Test</h2>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+        <strong style="color: var(--text);">What It Is:</strong> Evaluates inhibitory motor control under rhythmic disruption. A main accent pulse plays every 600ms that you must tap along with. Random high-pitched syncopated "off-beats" will attempt to distract your rhythm.
+      </p>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+        <strong style="color: var(--text);">What It Helps With:</strong> Assessing your brain's ability to suppress unwanted motor reflexes and ignore environmental audio noise—a vital cognitive-motor skill for maintaining steady balance and gait focus.
+      </p>
+
+      <div class="instruction-steps">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <span class="step-title">Lock to Low Accent</span>
+          <p class="step-desc">Click "Start Suppression Test". Tap the trigger ONLY when you hear the heavy low-pitch beat.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <span class="step-title">Ignore Off-Beats</span>
+          <p class="step-desc">Do NOT tap when high-pitched syncopated distractor pulses fire between main beats.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <span class="step-title">Measure Suppression</span>
+          <p class="step-desc">See your final accuracy score based on correct main-beat taps minus false off-beat reactions.</p>
+        </div>
+      </div>
+
+      <div class="interactive-container">
+        <div id="suppressBox" class="interactive-status-box">
+          <span id="suppressBoxText" class="status-text">Click "Start Suppression Test" Below</span>
+        </div>
+        <button id="startSuppressBtn" class="action-btn" onclick="startSuppressTest()">Start Suppression Test</button>
+        <button id="suppressTapBtn" class="action-btn" style="display:none;" onclick="recordSuppressTap()">TAP ON MAIN BEAT</button>
+        <div id="suppressResultDisplay" class="result-display">Suppression Accuracy: -- %</div>
       </div>
     </section>
 
     <!-- Project Architecture -->
     <section class="card">
-      <span class="card-label">[ 07 / Architecture ]</span>
+      <span class="card-label">[ 08 / Architecture ]</span>
       <h2>Therapeutic Framework</h2>
       <ul>
-        <li><strong>Parametric Signal Generation:</strong> Custom Python audio processing pipeline generating frequency accented rhythms.</li>
+        <li><strong>Parametric Signal Generation:</strong> Custom Python audio processing pipeline generating frequency-accented rhythms.</li>
         <li><strong>Neural Entrainment:</strong> Motor cortex synchronization driven by structural auditory cues.</li>
-        <li><strong>Millisecond Telemetry:</strong> Precise browser based timing evaluation for ongoing gait and motor assessment.</li>
+        <li><strong>Millisecond Telemetry:</strong> Precise browser-based timing evaluation for ongoing gait and motor assessment.</li>
       </ul>
     </section>
 
     <!-- Research Progress Roadmap -->
     <section class="card">
-      <span class="card-label">[ 08 / Roadmap ]</span>
+      <span class="card-label">[ 09 / Roadmap ]</span>
       <h2>Research & Development Progress</h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Current milestones achieved and ongoing clinical trial development:</p>
       
@@ -563,7 +609,7 @@
             <strong>Phase 1: Algorithmic Audio Synthesizer</strong>
             <span class="step-tag tag-completed">Completed</span>
           </div>
-          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Engineered Python sound generator for frequency accented RAS audio files and integrated Web Audio API for browser simulation.</p>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Engineered Python sound generator for frequency-accented RAS audio files and integrated Web Audio API for browser simulation.</p>
         </li>
         <li class="progress-step">
           <div class="step-header">
@@ -577,7 +623,7 @@
             <strong>Phase 3: Web-Based Telemetry Platform</strong>
             <span class="step-tag tag-in-progress">In Progress</span>
           </div>
-          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Deploying real time browser analytics and live tapping evaluation dashboards for remote clinical testing.</p>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Deploying real-time browser analytics and live tapping evaluation dashboards for remote clinical testing.</p>
         </li>
         <li class="progress-step">
           <div class="step-header">
@@ -595,11 +641,11 @@
     <div>Total Views: <span id="visitCount">Loading...</span></div>
   </footer>
 
-  <!-- Web Audio, Visualizer, Reaction Test & Custom Local Counter Logic -->
+  <!-- Web Audio, Visualizer & Custom Local Counter Logic -->
   <script>
-    // Custom Local Visitor Counter set to baseline of 341
+    // Custom Local Visitor Counter set to baseline of 341 using isolated v2 key
     const STARTING_BASELINE = 341;
-    let currentVisits = localStorage.getItem('smart_beats_views');
+    let currentVisits = localStorage.getItem('smart_beats_views_v2');
 
     if (!currentVisits) {
       currentVisits = STARTING_BASELINE;
@@ -607,7 +653,7 @@
       currentVisits = parseInt(currentVisits, 10) + 1;
     }
 
-    localStorage.setItem('smart_beats_views', currentVisits);
+    localStorage.setItem('smart_beats_views_v2', currentVisits);
     document.getElementById('visitCount').innerText = currentVisits.toLocaleString();
 
     // Audio Engine & Visualizer Setup
@@ -820,69 +866,173 @@
       }
     });
 
-    // Reaction Speed Test Engine
-    let reactionTimer = null;
-    let reactionStartTime = 0;
-    let reactionState = 'idle';
+    /* ===================================================
+       TEST 4: PHASE-RESETTING & INTERNAL CLOCK TEST ENGINE
+       =================================================== */
+    let clockTaps = [];
+    let isClockRunning = false;
+    let clockAudioTimer = null;
 
-    const reactionBox = document.getElementById('reactionBox');
-    const reactionBoxText = document.getElementById('reactionBoxText');
-    const reactionResultDisplay = document.getElementById('reactionResultDisplay');
-    const startReactionBtn = document.getElementById('startReactionBtn');
-
-    function startReactionTest() {
-      if (reactionState !== 'idle') return;
+    function playTone(freq, duration, volume = 0.2) {
       if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      reactionState = 'waiting';
-      startReactionBtn.disabled = true;
-      reactionBox.style.backgroundColor = '#111111';
-      reactionBoxText.style.color = '#f9f8f6';
-      reactionBoxText.innerText = 'Wait for Signal...';
-      reactionResultDisplay.innerText = 'Reaction Time: Testing...';
-
-      const delay = Math.floor(Math.random() * 3000) + 2000;
-
-      reactionTimer = setTimeout(() => {
-        reactionState = 'active';
-        reactionStartTime = performance.now();
-        reactionBox.style.backgroundColor = '#ffffff';
-        reactionBoxText.style.color = '#111111';
-        reactionBoxText.innerText = 'TAP NOW!';
-
-        // Trigger Audio Cue Accent Pulse
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.connect(gain);
-        gain.connect(analyser);
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.1);
-      }, delay);
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(analyser);
+      gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
     }
 
-    reactionBox.addEventListener('click', () => {
-      if (reactionState === 'waiting') {
-        clearTimeout(reactionTimer);
-        reactionState = 'idle';
-        reactionBox.style.backgroundColor = 'var(--card-bg)';
-        reactionBoxText.style.color = 'var(--text-muted)';
-        reactionBoxText.innerText = 'Too Early! Try Again';
-        reactionResultDisplay.innerText = 'Reaction Time: Invalid (Too Early)';
-        startReactionBtn.disabled = false;
-      } else if (reactionState === 'active') {
-        const reactionTime = Math.round(performance.now() - reactionStartTime);
-        reactionState = 'idle';
-        reactionBox.style.backgroundColor = 'var(--card-bg)';
-        reactionBoxText.style.color = 'var(--text-muted)';
-        reactionBoxText.innerText = 'Complete!';
-        reactionResultDisplay.innerText = `Reaction Time: ${reactionTime} ms`;
-        startReactionBtn.disabled = false;
-      }
-    });
+    function startClockTest() {
+      if (isClockRunning) return;
+      isClockRunning = true;
+      clockTaps = [];
 
+      document.getElementById('startClockBtn').style.display = 'none';
+      document.getElementById('clockTapBtn').style.display = 'inline-block';
+      document.getElementById('clockBoxText').innerText = 'Audio Active: Tap along with the beat!';
+      document.getElementById('clockBox').style.backgroundColor = '#111111';
+      document.getElementById('clockBoxText').style.color = '#f9f8f6';
+      document.getElementById('clockResultDisplay').innerText = 'Internal Drift: Measuring...';
+
+      let beatCount = 0;
+      const interval = 500; // 120 BPM
+
+      clockAudioTimer = setInterval(() => {
+        beatCount++;
+        // Beats 1 to 6 play audible clicks
+        if (beatCount <= 6) {
+          playTone(800, 0.05, 0.2);
+        } 
+        // Beats 7 to 10 are SILENT (user must keep tapping in silence)
+        else if (beatCount > 6 && beatCount <= 10) {
+          if (beatCount === 7) {
+            document.getElementById('clockBoxText').innerText = 'AUDIO SILENT! Keep tapping at the same tempo!';
+            document.getElementById('clockBox').style.backgroundColor = '#ffffff';
+            document.getElementById('clockBoxText').style.color = '#111111';
+          }
+        }
+        // Beat 11: Audio returns to test alignment
+        else if (beatCount === 11) {
+          playTone(1200, 0.1, 0.4); // Target Return Pulse
+          document.getElementById('clockBoxText').innerText = 'Audio Returned! Evaluation Complete.';
+          document.getElementById('clockBox').style.backgroundColor = 'var(--card-bg)';
+          document.getElementById('clockBoxText').style.color = 'var(--text-muted)';
+          
+          clearInterval(clockAudioTimer);
+          finishClockTest();
+        }
+      }, interval);
+    }
+
+    function recordClockTap() {
+      if (!isClockRunning) return;
+      clockTaps.push(performance.now());
+    }
+
+    function finishClockTest() {
+      isClockRunning = false;
+      document.getElementById('startClockBtn').style.display = 'inline-block';
+      document.getElementById('clockTapBtn').style.display = 'none';
+
+      if (clockTaps.length < 4) {
+        document.getElementById('clockResultDisplay').innerText = 'Internal Drift: Not enough taps recorded during test.';
+        return;
+      }
+
+      let silentIntervals = [];
+      for (let i = 1; i < clockTaps.length; i++) {
+        silentIntervals.push(clockTaps[i] - clockTaps[i - 1]);
+      }
+
+      let totalDrift = silentIntervals.reduce((acc, val) => acc + Math.abs(val - 500), 0);
+      let avgDrift = Math.round(totalDrift / silentIntervals.length);
+
+      document.getElementById('clockResultDisplay').innerText = `Internal Drift: ${avgDrift} ms average deviation during silence`;
+    }
+
+    /* ===================================================
+       TEST 1: OFF-BEAT SUPPRESSION TEST ENGINE
+       =================================================== */
+    let isSuppressRunning = false;
+    let suppressTimer = null;
+    let suppressTargetBeats = 0;
+    let suppressUserTaps = 0;
+    let suppressFalsePositives = 0;
+    let lastMainBeatTime = 0;
+
+    function startSuppressTest() {
+      if (isSuppressRunning) return;
+      isSuppressRunning = true;
+      suppressTargetBeats = 0;
+      suppressUserTaps = 0;
+      suppressFalsePositives = 0;
+
+      document.getElementById('startSuppressBtn').style.display = 'none';
+      document.getElementById('suppressTapBtn').style.display = 'inline-block';
+      document.getElementById('suppressBoxText').innerText = 'Tap ONLY on low heavy beats!';
+      document.getElementById('suppressBox').style.backgroundColor = '#111111';
+      document.getElementById('suppressBoxText').style.color = '#f9f8f6';
+      document.getElementById('suppressResultDisplay').innerText = 'Suppression Accuracy: Testing...';
+
+      let cycle = 0;
+      const mainInterval = 600; // Main beat rhythm
+
+      suppressTimer = setInterval(() => {
+        cycle++;
+        suppressTargetBeats++;
+        lastMainBeatTime = performance.now();
+
+        // Play Main Heavy Accent Beat
+        playTone(150, 0.12, 0.4);
+
+        // Schedule random high-pitch off-beat distractors between main beats
+        if (Math.random() > 0.4 && cycle < 18) {
+          let offBeatDelay = Math.floor(Math.random() * 200) + 200; // 200-400ms after main beat
+          setTimeout(() => {
+            if (isSuppressRunning) {
+              playTone(1500, 0.04, 0.25); // Distractor High Pulse
+            }
+          }, offBeatDelay);
+        }
+
+        if (cycle >= 18) {
+          clearInterval(suppressTimer);
+          setTimeout(finishSuppressTest, 600);
+        }
+      }, mainInterval);
+    }
+
+    function recordSuppressTap() {
+      if (!isSuppressRunning) return;
+      let now = performance.now();
+      let timeSinceMain = now - lastMainBeatTime;
+
+      // If tapped within 250ms of main beat, it's a correct sync tap
+      if (timeSinceMain <= 250) {
+        suppressUserTaps++;
+      } else {
+        // Tapped on off-beat distractor (Inhibition failure)
+        suppressFalsePositives++;
+      }
+    }
+
+    function finishSuppressTest() {
+      isSuppressRunning = false;
+      document.getElementById('startSuppressBtn').style.display = 'inline-block';
+      document.getElementById('suppressTapBtn').style.display = 'none';
+      document.getElementById('suppressBox').style.backgroundColor = 'var(--card-bg)';
+      document.getElementById('suppressBoxText').style.color = 'var(--text-muted)';
+      document.getElementById('suppressBoxText').innerText = 'Test Completed';
+
+      let correctPercentage = Math.max(0, Math.round(((suppressUserTaps - suppressFalsePositives) / suppressTargetBeats) * 100));
+      document.getElementById('suppressResultDisplay').innerText = `Suppression Accuracy: ${correctPercentage}% (${suppressUserTaps} Sync Taps | ${suppressFalsePositives} Off-Beat Errors)`;
+    }
+
+    // Clinical Chart Setup
     const ctx = document.getElementById('resultsChart').getContext('2d');
     new Chart(ctx, {
       type: 'bar',
