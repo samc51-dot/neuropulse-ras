@@ -57,7 +57,6 @@
       padding: 80px 40px 60px;
       max-width: 1100px;
       margin: 0 auto;
-      border-bottom: 1px solid var(--border);
     }
 
     .badge-bracket {
@@ -85,11 +84,48 @@
       line-height: 1.5;
     }
 
+    /* LEIBAL-Inspired Minimalist Gallery Grid */
+    .gallery-container {
+      max-width: 1100px;
+      margin: 0 auto 60px auto;
+      padding: 0 40px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    .gallery-item span {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      filter: grayscale(15%) sepia(8%);
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item img:hover {
+      opacity: 0.9;
+    }
+
     /* Layout & Cards */
     main {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 60px 40px;
+      padding: 0 40px 60px;
     }
 
     .editorial-grid {
@@ -100,11 +136,15 @@
     }
 
     @media (max-width: 850px) {
-      .editorial-grid {
-        grid-template-columns: 1fr;
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
       }
-      header, main {
-        padding: 40px 20px;
+      .editorial-grid, .abstract-split-grid {
+        grid-template-columns: 1fr !important;
+      }
+      header, main, .gallery-container {
+        padding-left: 20px;
+        padding-right: 20px;
       }
       h1 {
         font-size: 2.8rem;
@@ -389,30 +429,60 @@
     <p class="tagline">Targeted Auditory Entrainment for Neuromotor Rehabilitation and Precision Synchronization.</p>
   </header>
 
+  <!-- LEIBAL-Style Minimalist Photo Grid Header -->
+  <section class="gallery-container">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <span>Acoustics</span>
+        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" alt="Minimalist Interior Space" />
+      </div>
+      <div class="gallery-item">
+        <span>Tactile</span>
+        <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80" alt="Minimalist Objects" />
+      </div>
+      <div class="gallery-item">
+        <span>Geometry</span>
+        <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=600&q=80" alt="Clean Lines and Light" />
+      </div>
+      <div class="gallery-item">
+        <span>Precision</span>
+        <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=600&q=80" alt="Warm Minimalist Architecture" />
+      </div>
+    </div>
+  </section>
+
   <main>
-    <!-- Executive Clinical Abstract -->
+    <!-- Executive Clinical Abstract with Offset LEIBAL Image Split -->
     <section class="card">
-      <span class="card-label">[ 01 / Research Abstract ]</span>
-      <h2>Abstract: How Custom Beats Help the Body Move in Better Rhythm</h2>
-      
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
-        <strong style="color: var(--text);">The Problem:</strong> Neurologic Music Therapy uses audio beats to help people control their body movements by training the brain to match a rhythm. However, most therapies just use a basic, plain metronome click, which isn't always easy for the brain to follow.
-      </p>
+      <div class="abstract-split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+        <div>
+          <span class="card-label">[ 01 / Research Abstract ]</span>
+          <h2>Abstract: How Custom Beats Help the Body Move in Better Rhythm</h2>
+          
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+            <strong style="color: var(--text);">The Problem:</strong> Neurologic Music Therapy uses audio beats to help people control their body movements by training the brain to match a rhythm. However, most therapies just use a basic metronome click.
+          </p>
 
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
-        <strong style="color: var(--text);">What I Did:</strong> I built a computer program in Python that creates custom music tracks with special drum accents and clearer beats. Then, I tested 25 people by having them tap along to both a standard metronome click and my custom music tracks to measure their timing accuracy in milliseconds.
-      </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+            <strong style="color: var(--text);">What I Did:</strong> I built a computer program in Python that creates custom music tracks with special drum accents and tested 25 people tapping along to measure timing accuracy.
+          </p>
 
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
-        <strong style="color: var(--text);">What I Found:</strong> People kept much better rhythm when listening to the custom music tracks. Their tapping timing errors dropped by 18.4% compared to the basic metronome.
-      </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+            <strong style="color: var(--text);">What I Found:</strong> People kept much better rhythm when listening to custom music tracks. Timing errors dropped by 18.4% compared to a basic metronome.
+          </p>
 
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">
-        <strong style="color: var(--text);">Why It Matters:</strong> Adding clearer musical beats makes it much easier for the brain and body to stay on rhythm, opening up better, low cost digital tools for movement therapy.
-      </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">
+            <strong style="color: var(--text);">Why It Matters:</strong> Adding clearer musical beats makes it easier for the brain and body to stay on rhythm, opening up low cost digital tools for movement therapy.
+          </p>
 
-      <div class="stat-box">
-        Primary Outcome: 18.4% Reduction in Tapping Timing Error
+          <div class="stat-box">
+            Primary Outcome: 18.4% Reduction in Tapping Timing Error
+          </div>
+        </div>
+
+        <div>
+          <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Minimalist Visual Object" style="width: 100%; height: 100%; min-height: 380px; object-fit: cover; filter: grayscale(15%) sepia(8%); display: block;" />
+        </div>
       </div>
     </section>
 
@@ -504,8 +574,8 @@
       </section>
     </div>
 
-    <!-- Section 06: Phase Resetting & Internal Clock Test (Test 4) -->
-    <section class="card" style="margin-top: 40px;">
+    <!-- Section 06: Phase Resetting & Internal Clock Test -->
+    <section class="card">
       <span class="card-label">[ 06 / Rhythmic Prediction ]</span>
       <h2>Phase Resetting & Internal Clock Test</h2>
 
@@ -545,7 +615,7 @@
       </div>
     </section>
 
-    <!-- Section 07: Off Beat Suppression Test (Test 1) -->
+    <!-- Section 07: Off Beat Suppression Test -->
     <section class="card">
       <span class="card-label">[ 07 / Inhibitory Control ]</span>
       <h2>Off Beat Motor Suppression Test</h2>
@@ -620,7 +690,7 @@
         </li>
         <li class="progress-step">
           <div class="step-header">
-            <strong>Phase 3: Web Based Telemetry Platform</strong>
+            <strong>Phase 3: Web-Based Telemetry Platform</strong>
             <span class="step-tag tag-in-progress">In Progress</span>
           </div>
           <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Deploying real time browser analytics and live tapping evaluation dashboards for remote clinical testing.</p>
@@ -641,9 +711,9 @@
     <div>Total Views: <span id="visitCount">Loading...</span></div>
   </footer>
 
-  <!-- Web Audio, Visualizer & Custom Local Counter Logic -->
+  <!-- JavaScript Application Logic -->
   <script>
-    // Custom Local Visitor Counter set to baseline of 341 using isolated v2 key
+    // Custom Local Visitor Counter
     const STARTING_BASELINE = 341;
     let currentVisits = localStorage.getItem('smart_beats_views_v2');
 
@@ -866,9 +936,7 @@
       }
     });
 
-    /* ===================================================
-       TEST 4: PHASE RESETTING & INTERNAL CLOCK TEST ENGINE
-       =================================================== */
+    /* Phase Resetting Logic */
     let clockTaps = [];
     let isClockRunning = false;
     let clockAudioTimer = null;
@@ -899,25 +967,20 @@
       document.getElementById('clockResultDisplay').innerText = 'Internal Drift: Measuring...';
 
       let beatCount = 0;
-      const interval = 500; // 120 BPM
+      const interval = 500;
 
       clockAudioTimer = setInterval(() => {
         beatCount++;
-        // Beats 1 to 6 play audible clicks
         if (beatCount <= 6) {
           playTone(800, 0.05, 0.2);
-        } 
-        // Beats 7 to 10 are SILENT (user must keep tapping in silence)
-        else if (beatCount > 6 && beatCount <= 10) {
+        } else if (beatCount > 6 && beatCount <= 10) {
           if (beatCount === 7) {
             document.getElementById('clockBoxText').innerText = 'AUDIO SILENT! Keep tapping at the same tempo!';
             document.getElementById('clockBox').style.backgroundColor = '#ffffff';
             document.getElementById('clockBoxText').style.color = '#111111';
           }
-        }
-        // Beat 11: Audio returns to test alignment
-        else if (beatCount === 11) {
-          playTone(1200, 0.1, 0.4); // Target Return Pulse
+        } else if (beatCount === 11) {
+          playTone(1200, 0.1, 0.4);
           document.getElementById('clockBoxText').innerText = 'Audio Returned! Evaluation Complete.';
           document.getElementById('clockBox').style.backgroundColor = 'var(--card-bg)';
           document.getElementById('clockBoxText').style.color = 'var(--text-muted)';
@@ -954,9 +1017,7 @@
       document.getElementById('clockResultDisplay').innerText = `Internal Drift: ${avgDrift} ms average deviation during silence`;
     }
 
-    /* ===================================================
-       TEST 1: OFF-BEAT SUPPRESSION TEST ENGINE
-       =================================================== */
+    /* Off-Beat Suppression Logic */
     let isSuppressRunning = false;
     let suppressTimer = null;
     let suppressTargetBeats = 0;
@@ -979,22 +1040,20 @@
       document.getElementById('suppressResultDisplay').innerText = 'Suppression Accuracy: Testing...';
 
       let cycle = 0;
-      const mainInterval = 600; // Main beat rhythm
+      const mainInterval = 600;
 
       suppressTimer = setInterval(() => {
         cycle++;
         suppressTargetBeats++;
         lastMainBeatTime = performance.now();
 
-        // Play Main Heavy Accent Beat
         playTone(150, 0.12, 0.4);
 
-        // Schedule random high-pitch off-beat distractors between main beats
         if (Math.random() > 0.4 && cycle < 18) {
-          let offBeatDelay = Math.floor(Math.random() * 200) + 200; // 200-400ms after main beat
+          let offBeatDelay = Math.floor(Math.random() * 200) + 200;
           setTimeout(() => {
             if (isSuppressRunning) {
-              playTone(1500, 0.04, 0.25); // Distractor High Pulse
+              playTone(1500, 0.04, 0.25);
             }
           }, offBeatDelay);
         }
@@ -1011,11 +1070,9 @@
       let now = performance.now();
       let timeSinceMain = now - lastMainBeatTime;
 
-      // If tapped within 250ms of main beat, it's a correct sync tap
       if (timeSinceMain <= 250) {
         suppressUserTaps++;
       } else {
-        // Tapped on off-beat distractor (Inhibition failure)
         suppressFalsePositives++;
       }
     }
