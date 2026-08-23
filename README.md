@@ -1,3 +1,4 @@
+[Open and Run Code in Google Colab](https://colab.research.google.com/drive/1pPWt4wplhgXe0jrwP4Iwejta1Y_BEW5O?usp=sharing)
 # Smart Beats: Parametric Rhythm Generation for Rhythmic Auditory Stimulation (RAS)
 
 A Python-based audio generation and rhythm-testing toolkit that explores how custom music tracks improve timing accuracy compared to traditional metronome clicks.
