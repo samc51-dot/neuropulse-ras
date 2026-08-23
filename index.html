@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smart Beats | Music & Neurologic Therapy</title>
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg: #0f172a;
@@ -138,6 +140,13 @@
       </div>
     </section>
 
+    <!-- STEP 4: Interactive Data Chart -->
+    <section class="card">
+      <h2>Experimental Results</h2>
+      <p>Average motor timing error (milliseconds off-beat) across trial participants:</p>
+      <canvas id="resultsChart"></canvas>
+    </section>
+
     <section class="card">
       <h2>How It Works</h2>
       <ul>
@@ -162,8 +171,9 @@
     <p>Smart Beats Passion Project &bull; Open Source on <a href="https://github.com">GitHub</a></p>
   </footer>
 
-  <!-- STEP 3 JavaScript Logic -->
+  <!-- Scripts -->
   <script>
+    // STEP 3: Tapping Test Logic
     let tapTimes = [];
     const tapButton = document.getElementById('tapButton');
     const resultDisplay = document.getElementById('resultDisplay');
@@ -184,6 +194,35 @@
         resultDisplay.innerText = `Taps: ${tapTimes.length} | Avg Timing Variance: ${avgError} ms`;
       } else {
         resultDisplay.innerText = "Keep tapping steady...";
+      }
+    });
+
+    // STEP 4: Chart.js Logic
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Standard Metronome', 'Custom RAS Music Track'],
+        datasets: [{
+          label: 'Average Motor Error (ms)',
+          data: [42.3, 34.5],
+          backgroundColor: ['#ef4444', '#0284c7'],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Error in Milliseconds (Lower is Better)', color: '#94a3b8' },
+            ticks: { color: '#94a3b8' }
+          },
+          x: { ticks: { color: '#94a3b8' } }
+        }
       }
     });
   </script>
