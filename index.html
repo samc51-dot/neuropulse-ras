@@ -227,7 +227,7 @@
       background: var(--bg);
     }
 
-    button#tapButton {
+    button.action-btn {
       background: var(--text);
       color: var(--bg);
       border: 1px solid var(--text);
@@ -240,7 +240,7 @@
       transition: background 0.2s ease;
     }
 
-    button#tapButton:hover {
+    button.action-btn:hover {
       background: #333333;
     }
 
@@ -250,6 +250,39 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
       font-weight: 500;
+    }
+
+    /* Visualizer Canvas Styling */
+    #visualizerCanvas {
+      width: 100%;
+      height: 120px;
+      background-color: var(--text);
+      border: 1px solid var(--border);
+      margin-top: 20px;
+      display: block;
+    }
+
+    /* Reaction Target Box Styling */
+    #reactionBox {
+      width: 100%;
+      height: 160px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.1s ease;
+    }
+
+    #reactionBoxText {
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
     }
 
     ul {
@@ -375,21 +408,41 @@
       </div>
     </section>
 
-    <!-- Browser Synthesized Audio Controls -->
+    <!-- Browser Synthesized Audio Controls with Real-Time Waveform -->
     <section class="card">
-      <span class="card-label">[ 02 / Interactive Audio ]</span>
-      <h2>Auditory Stimuli Comparison</h2>
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Test the acoustic difference between standard clinical clicks and parametric auditory stimulation tracks (15-second samples):</p>
+      <span class="card-label">[ 02 / Interactive Audio & Visualizer ]</span>
+      <h2>Auditory Stimuli & Real-Time Waveform Visualizer</h2>
       
+      <div class="instruction-steps">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <span class="step-title">Choose Sound Track</span>
+          <p class="step-desc">Click either the standard metronome or custom parametric beat audio sample below.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <span class="step-title">Observe Audio Oscillations</span>
+          <p class="step-desc">Watch the live audio visualizer display sound wave amplitude spikes in real time.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <span class="step-title">Compare Frequency Profiles</span>
+          <p class="step-desc">Compare the thin spikes of a flat click against the layered pulses of the custom beat.</p>
+        </div>
+      </div>
+
       <div style="margin-bottom: 16px;">
         <p style="margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Control Baseline: Flat Metronome Click</p>
         <button id="metroBtn" class="audio-btn" onclick="playMetronome()"><span>Play 15s Metronome Sample</span> <span>&#9654;</span></button>
       </div>
 
-      <div>
+      <div style="margin-bottom: 24px;">
         <p style="margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Parametric Intervention: Accented RAS Track</p>
         <button id="rasBtn" class="audio-btn" onclick="playRASBeat()"><span>Play 15s Parametric RAS Beat</span> <span>&#9654;</span></button>
       </div>
+
+      <p style="margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Live Audio Frequency Waveform</p>
+      <canvas id="visualizerCanvas"></canvas>
     </section>
 
     <!-- Interactive Tapping Test -->
@@ -412,20 +465,52 @@
         <div class="step-card">
           <span class="step-number">03</span>
           <span class="step-title">Review Your Score</span>
-          <p class="step-desc">When the sample ends, check your live timing error recorded in Section 04 below.</p>
+          <p class="step-desc">When the sample ends, check your live timing error recorded in Section 05 below.</p>
         </div>
       </div>
 
       <div class="interactive-container">
-        <button id="tapButton">Tap Motor Rhythm Trigger</button>
+        <button id="tapButton" class="action-btn">Tap Motor Rhythm Trigger</button>
         <div id="resultDisplay" class="result-display">Taps Recorded: 0 | Timing Variance: 0 ms</div>
+      </div>
+    </section>
+
+    <!-- Audio-Visual Reaction Speed Test -->
+    <section class="card">
+      <span class="card-label">[ 04 / Reaction Speed Test ]</span>
+      <h2>Audio-Visual Reflex Speed Test</h2>
+
+      <div class="instruction-steps">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <span class="step-title">Press Start Test</span>
+          <p class="step-desc">Click the button below to arm the test. The box will turn dark while waiting.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <span class="step-title">Watch & Listen</span>
+          <p class="step-desc">Wait 2–5 seconds until the box flashes white with a audio cue pulse.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <span class="step-title">Click As Fast As You Can</span>
+          <p class="step-desc">Tap the target box instantly when it lights up to calculate your reaction speed in ms.</p>
+        </div>
+      </div>
+
+      <div class="interactive-container">
+        <div id="reactionBox">
+          <span id="reactionBoxText">Click "Start Test" Below</span>
+        </div>
+        <button id="startReactionBtn" class="action-btn" onclick="startReactionTest()">Start Test</button>
+        <div id="reactionResultDisplay" class="result-display">Reaction Time: -- ms</div>
       </div>
     </section>
 
     <div class="editorial-grid">
       <!-- User Live Assessment Chart -->
       <section class="card">
-        <span class="card-label">[ 04 / User Metrics ]</span>
+        <span class="card-label">[ 05 / User Metrics ]</span>
         <h2>Your Live Performance</h2>
         <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Calculated motor timing variance (ms) recorded during playback:</p>
         <canvas id="userChart"></canvas>
@@ -433,7 +518,7 @@
 
       <!-- Interactive Data Chart -->
       <section class="card">
-        <span class="card-label">[ 05 / Clinical Data ]</span>
+        <span class="card-label">[ 06 / Clinical Data ]</span>
         <h2>Trial Synchronization Metrics</h2>
         <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Mean motor timing error in milliseconds across participant cohorts:</p>
         <canvas id="resultsChart"></canvas>
@@ -442,7 +527,7 @@
 
     <!-- Project Architecture -->
     <section class="card">
-      <span class="card-label">[ 06 / Architecture ]</span>
+      <span class="card-label">[ 07 / Architecture ]</span>
       <h2>Therapeutic Framework</h2>
       <ul>
         <li><strong>Parametric Signal Generation:</strong> Custom Python audio processing pipeline generating frequency-accented rhythms.</li>
@@ -453,7 +538,7 @@
 
     <!-- Research Progress Roadmap -->
     <section class="card">
-      <span class="card-label">[ 07 / Roadmap ]</span>
+      <span class="card-label">[ 08 / Roadmap ]</span>
       <h2>Research & Development Progress</h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Current milestones achieved and ongoing clinical trial development:</p>
       
@@ -495,7 +580,7 @@
     <div>Total Views: <span id="visitCount">Loading...</span></div>
   </footer>
 
-  <!-- Web Audio, Analytics, and Visitor Counter Logic -->
+  <!-- Web Audio, Visualizer, Reaction Test & Visitor Counter Logic -->
   <script>
     // Visitor Counter API Integration
     fetch('https://api.countapi.xyz/hit/smart-beats-project-v1/visits')
@@ -507,8 +592,47 @@
         document.getElementById('visitCount').innerText = '1';
       });
 
-    // Audio Engine and Assessment Logic
+    // Audio Engine & Visualizer Setup
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.connect(audioCtx.destination);
+
+    const canvas = document.getElementById('visualizerCanvas');
+    const canvasCtx = canvas.getContext('2d');
+    
+    function drawVisualizer() {
+      requestAnimationFrame(drawVisualizer);
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      analyser.getByteTimeDomainData(dataArray);
+
+      canvasCtx.fillStyle = '#111111';
+      canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+      canvasCtx.lineWidth = 2;
+      canvasCtx.strokeStyle = '#f9f8f6';
+      canvasCtx.beginPath();
+
+      const sliceWidth = canvas.width * 1.0 / bufferLength;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        const v = dataArray[i] / 128.0;
+        const y = v * canvas.height / 2;
+
+        if (i === 0) {
+          canvasCtx.moveTo(x, y);
+        } else {
+          canvasCtx.lineTo(x, y);
+        }
+        x += sliceWidth;
+      }
+
+      canvasCtx.lineTo(canvas.width, canvas.height / 2);
+      canvasCtx.stroke();
+    }
+    drawVisualizer();
+
     let isPlaying = false;
     let currentSampleType = null;
     let currentAvgError = 0;
@@ -609,7 +733,7 @@
         osc.type = 'sine';
         osc.frequency.value = 1000;
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        gain.connect(analyser);
         
         let startTime = audioCtx.currentTime + (i * interval);
         gain.gain.setValueAtTime(0.15, startTime);
@@ -639,7 +763,7 @@
         kickOsc.frequency.setValueAtTime(140, startTime);
         kickOsc.frequency.exponentialRampToValueAtTime(0.01, startTime + 0.15);
         kickOsc.connect(kickGain);
-        kickGain.connect(audioCtx.destination);
+        kickGain.connect(analyser);
         kickGain.gain.setValueAtTime(0.4, startTime);
         kickGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
         kickOsc.start(startTime);
@@ -650,7 +774,7 @@
           const accentGain = audioCtx.createGain();
           accentOsc.frequency.value = 1200;
           accentOsc.connect(accentGain);
-          accentGain.connect(audioCtx.destination);
+          accentGain.connect(analyser);
           accentGain.gain.setValueAtTime(0.25, startTime);
           accentGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.08);
           accentOsc.start(startTime);
@@ -675,6 +799,69 @@
         resultDisplay.innerText = `Taps Recorded: ${tapTimes.length} | Timing Variance: ${currentAvgError} ms`;
       } else {
         resultDisplay.innerText = "Keep tapping steady rhythm...";
+      }
+    });
+
+    // Reaction Speed Test Engine
+    let reactionTimer = null;
+    let reactionStartTime = 0;
+    let reactionState = 'idle';
+
+    const reactionBox = document.getElementById('reactionBox');
+    const reactionBoxText = document.getElementById('reactionBoxText');
+    const reactionResultDisplay = document.getElementById('reactionResultDisplay');
+    const startReactionBtn = document.getElementById('startReactionBtn');
+
+    function startReactionTest() {
+      if (reactionState !== 'idle') return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      reactionState = 'waiting';
+      startReactionBtn.disabled = true;
+      reactionBox.style.backgroundColor = '#111111';
+      reactionBoxText.style.color = '#f9f8f6';
+      reactionBoxText.innerText = 'Wait for Signal...';
+      reactionResultDisplay.innerText = 'Reaction Time: Testing...';
+
+      const delay = Math.floor(Math.random() * 3000) + 2000;
+
+      reactionTimer = setTimeout(() => {
+        reactionState = 'active';
+        reactionStartTime = performance.now();
+        reactionBox.style.backgroundColor = '#ffffff';
+        reactionBoxText.style.color = '#111111';
+        reactionBoxText.innerText = 'TAP NOW!';
+
+        // Trigger Audio Cue Accent Pulse
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(analyser);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+      }, delay);
+    }
+
+    reactionBox.addEventListener('click', () => {
+      if (reactionState === 'waiting') {
+        clearTimeout(reactionTimer);
+        reactionState = 'idle';
+        reactionBox.style.backgroundColor = 'var(--card-bg)';
+        reactionBoxText.style.color = 'var(--text-muted)';
+        reactionBoxText.innerText = 'Too Early! Try Again';
+        reactionResultDisplay.innerText = 'Reaction Time: Invalid (Too Early)';
+        startReactionBtn.disabled = false;
+      } else if (reactionState === 'active') {
+        const reactionTime = Math.round(performance.now() - reactionStartTime);
+        reactionState = 'idle';
+        reactionBox.style.backgroundColor = 'var(--card-bg)';
+        reactionBoxText.style.color = 'var(--text-muted)';
+        reactionBoxText.innerText = 'Complete!';
+        reactionResultDisplay.innerText = `Reaction Time: ${reactionTime} ms`;
+        startReactionBtn.disabled = false;
       }
     });
 
