@@ -73,17 +73,27 @@
       margin: 15px 0;
     }
 
+    .audio-btn {
+      background: #0284c7;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .audio-btn:active {
+      background: #38bdf8;
+    }
+
     ul {
       padding-left: 20px;
     }
 
     li {
       margin-bottom: 10px;
-    }
-
-    audio {
-      width: 100%;
-      margin-top: 8px;
     }
 
     footer {
@@ -125,14 +135,14 @@
       </div>
     </section>
 
-    <!-- Audio Players -->
+    <!-- Browser Synthesized Audio Controls -->
     <section class="card">
       <h2>Listen to Sample Audio Cues</h2>
-      <p>Standard Metronome (120 BPM):</p>
-      <audio controls src="test_beat.wav"></audio>
+      <p><strong>1. Standard Metronome (Flat, Unaccented Click):</strong></p>
+      <button class="audio-btn" onclick="playMetronome()">Play Standard Click</button>
 
-      <p style="margin-top: 15px;">Custom RAS Track (120 BPM):</p>
-      <audio controls src="test_beat.wav"></audio>
+      <p style="margin-top: 20px;"><strong>2. Custom RAS Rhythm Track (Deep Bass Beat + Accented Click):</strong></p>
+      <button class="audio-btn" onclick="playRASBeat()" style="background: #059669;">Play Custom RAS Track</button>
     </section>
 
     <!-- Interactive Tapping Test -->
@@ -182,6 +192,63 @@
 
   <!-- Scripts -->
   <script>
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // 1. Plain Metronome Synthesizer (Standard Click)
+    function playMetronome() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const interval = 0.5; // 120 BPM
+      for (let i = 0; i < 4; i++) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 1000; // Unchanging, flat pitch
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        let startTime = audioCtx.currentTime + (i * interval);
+        gain.gain.setValueAtTime(0.2, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.03);
+        
+        osc.start(startTime);
+        osc.stop(startTime + 0.03);
+      }
+    }
+
+    // 2. Custom RAS Synthesizer (Simulated Drum Beat + High Accent)
+    function playRASBeat() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const interval = 0.5; // 120 BPM
+      for (let i = 0; i < 4; i++) {
+        let startTime = audioCtx.currentTime + (i * interval);
+
+        // Low Bass Kick Drum for Motor Drive
+        const kickOsc = audioCtx.createOscillator();
+        const kickGain = audioCtx.createGain();
+        kickOsc.frequency.setValueAtTime(150, startTime);
+        kickOsc.frequency.exponentialRampToValueAtTime(0.01, startTime + 0.15);
+        kickOsc.connect(kickGain);
+        kickGain.connect(audioCtx.destination);
+        kickGain.gain.setValueAtTime(0.5, startTime);
+        kickGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
+        kickOsc.start(startTime);
+        kickOsc.stop(startTime + 0.15);
+
+        // Accent pulse on the 1st downbeat
+        if (i === 0) {
+          const accentOsc = audioCtx.createOscillator();
+          const accentGain = audioCtx.createGain();
+          accentOsc.frequency.value = 1200; // High pitch accent for beat 1
+          accentOsc.connect(accentGain);
+          accentGain.connect(audioCtx.destination);
+          accentGain.gain.setValueAtTime(0.3, startTime);
+          accentGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.08);
+          accentOsc.start(startTime);
+          accentOsc.stop(startTime + 0.08);
+        }
+      }
+    }
+
     // Tapping Test Logic
     let tapTimes = [];
     const tapButton = document.getElementById('tapButton');
