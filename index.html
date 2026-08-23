@@ -277,11 +277,18 @@
     <!-- Interactive Tapping Test -->
     <section class="card">
       <h2>Motor Synchronization Assessment</h2>
-      <p style="color: var(--text-muted); font-size: 0.95rem;">Click the trigger in steady synchronization (every 500ms) to evaluate your motor timing variance:</p>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Click the trigger in steady synchronization (every 500ms) to evaluate your motor timing variance while playing a sample:</p>
       <div class="interactive-container">
         <button id="tapButton">Tap Motor Rhythm Trigger</button>
         <div id="resultDisplay" class="result-display">Taps Recorded: 0 | Timing Variance: 0 ms</div>
       </div>
+    </section>
+
+    <!-- User Live Assessment Chart -->
+    <section class="card">
+      <h2>Your Live Performance Comparison</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">Your calculated motor timing variance (ms) recorded during audio playback:</p>
+      <canvas id="userChart"></canvas>
     </section>
 
     <!-- Interactive Data Chart -->
@@ -310,12 +317,50 @@
   <script>
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let isPlaying = false;
+    let currentSampleType = null; // 'metro' or 'ras'
+    let currentAvgError = 0;
     let tapTimes = [];
+    
     const tapButton = document.getElementById('tapButton');
     const resultDisplay = document.getElementById('resultDisplay');
 
+    // User Live Chart Setup
+    const userCtx = document.getElementById('userChart').getContext('2d');
+    const userChart = new Chart(userCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Your Metronome Error', 'Your RAS Beat Error'],
+        datasets: [{
+          label: 'Your Timing Error (ms)',
+          data: [0, 0],
+          backgroundColor: ['#3b82f6', '#10b981'],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Timing Error (Milliseconds)', color: '#94a3b8' },
+            ticks: { color: '#94a3b8' },
+            grid: { color: '#1e3648' }
+          },
+          x: { 
+            ticks: { color: '#cbd5e1' },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
     function resetAssessment() {
       tapTimes = [];
+      currentAvgError = 0;
+      currentSampleType = null;
       resultDisplay.innerText = "Taps Recorded: 0 | Timing Variance: 0 ms";
     }
 
@@ -334,14 +379,32 @@
       }
     }
 
-    function lockPlayback(btnElement, durationMs) {
+    function lockPlayback(btnElement, sampleType, durationMs) {
       isPlaying = true;
+      currentSampleType = sampleType;
+      tapTimes = [];
       setAudioButtonsState(true, btnElement);
 
+      // Audio completes at durationMs
       setTimeout(() => {
-        isPlaying = false;
-        setAudioButtonsState(false);
-        resetAssessment(); // Resets the motor test when audio sample ends
+        // Record score to chart
+        if (currentSampleType === 'metro') {
+          userChart.data.datasets[0].data[0] = currentAvgError;
+        } else if (currentSampleType === 'ras') {
+          userChart.data.datasets[0].data[1] = currentAvgError;
+        }
+        userChart.update();
+
+        // Display completion message
+        resultDisplay.innerText = `Sample finished. Resetting in 5s... (Recorded Variance: ${currentAvgError} ms)`;
+
+        // Wait 5 seconds after audio completes before unlocking and resetting
+        setTimeout(() => {
+          isPlaying = false;
+          setAudioButtonsState(false);
+          resetAssessment();
+        }, 5000);
+
       }, durationMs);
     }
 
@@ -355,7 +418,7 @@
       const totalBeats = 30; // 30 beats * 0.5s = 15 seconds
       const durationMs = totalBeats * interval * 1000;
 
-      lockPlayback(btn, durationMs);
+      lockPlayback(btn, 'metro', durationMs);
 
       for (let i = 0; i < totalBeats; i++) {
         const osc = audioCtx.createOscillator();
@@ -384,7 +447,7 @@
       const totalBeats = 30; // 30 beats * 0.5s = 15 seconds
       const durationMs = totalBeats * interval * 1000;
 
-      lockPlayback(btn, durationMs);
+      lockPlayback(btn, 'ras', durationMs);
 
       for (let i = 0; i < totalBeats; i++) {
         let startTime = audioCtx.currentTime + (i * interval);
@@ -428,15 +491,15 @@
         }
         
         let totalError = intervals.reduce((acc, val) => acc + Math.abs(val - 500), 0);
-        let avgError = Math.round(totalError / intervals.length);
+        currentAvgError = Math.round(totalError / intervals.length);
 
-        resultDisplay.innerText = `Taps Recorded: ${tapTimes.length} | Timing Variance: ${avgError} ms`;
+        resultDisplay.innerText = `Taps Recorded: ${tapTimes.length} | Timing Variance: ${currentAvgError} ms`;
       } else {
         resultDisplay.innerText = "Keep tapping steady rhythm...";
       }
     });
 
-    // Chart.js Theme Configuration
+    // Baseline Cohort Chart Setup
     const ctx = document.getElementById('resultsChart').getContext('2d');
     new Chart(ctx, {
       type: 'bar',
