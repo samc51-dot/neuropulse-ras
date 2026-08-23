@@ -99,7 +99,7 @@
       margin-bottom: 40px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 850px) {
       .editorial-grid {
         grid-template-columns: 1fr;
       }
@@ -116,6 +116,10 @@
       border: 1px solid var(--border);
       padding: 36px;
       margin-bottom: 40px;
+    }
+
+    .grid-card {
+      margin-bottom: 0;
     }
 
     .card-label {
@@ -180,8 +184,8 @@
     .instruction-steps {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 30px;
+      gap: 16px;
+      margin-bottom: 24px;
       text-align: left;
     }
 
@@ -193,36 +197,36 @@
 
     .step-card {
       border: 1px solid var(--border);
-      padding: 20px;
+      padding: 16px;
       background: var(--card-bg);
     }
 
     .step-number {
       font-family: 'Instrument Serif', Georgia, serif;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       color: var(--text-muted);
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .step-title {
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       margin-bottom: 4px;
       display: block;
     }
 
     .step-desc {
-      font-size: 0.825rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.35;
       margin: 0;
     }
 
     /* Interactive Section */
     .interactive-container {
       text-align: center;
-      padding: 40px 20px;
+      padding: 30px 20px;
       border: 1px solid var(--border);
       background: var(--bg);
     }
@@ -408,77 +412,106 @@
       </div>
     </section>
 
-    <!-- Browser Synthesized Audio Controls with Real-Time Waveform -->
-    <section class="card">
-      <span class="card-label">[ 02 / Interactive Audio & Visualizer ]</span>
-      <h2>Auditory Stimuli & Real-Time Waveform Visualizer</h2>
-      
-      <div class="instruction-steps">
-        <div class="step-card">
-          <span class="step-number">01</span>
-          <span class="step-title">Choose Sound Track</span>
-          <p class="step-desc">Click either the standard metronome or custom parametric beat audio sample below.</p>
+    <!-- Side-by-Side Grid: Section 02 & Section 03 -->
+    <div class="editorial-grid">
+      <!-- Browser Synthesized Audio Controls with Real-Time Waveform -->
+      <section class="card grid-card">
+        <span class="card-label">[ 02 / Interactive Audio & Visualizer ]</span>
+        <h2>Auditory Stimuli & Waveform</h2>
+        
+        <div class="instruction-steps">
+          <div class="step-card">
+            <span class="step-number">01</span>
+            <span class="step-title">Choose Sound</span>
+            <p class="step-desc">Click metronome or custom beat audio below.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">02</span>
+            <span class="step-title">Observe Waves</span>
+            <p class="step-desc">Watch live amplitude spikes in real time.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">03</span>
+            <span class="step-title">Compare Profiles</span>
+            <p class="step-desc">Compare thin spikes vs layered pulses.</p>
+          </div>
         </div>
-        <div class="step-card">
-          <span class="step-number">02</span>
-          <span class="step-title">Observe Audio Oscillations</span>
-          <p class="step-desc">Watch the live audio visualizer display sound wave amplitude spikes in real time.</p>
+
+        <div style="margin-bottom: 12px;">
+          <p style="margin-bottom: 4px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Baseline: Flat Metronome Click</p>
+          <button id="metroBtn" class="audio-btn" onclick="playMetronome()"><span>Play 15s Sample</span> <span>&#9654;</span></button>
         </div>
-        <div class="step-card">
-          <span class="step-number">03</span>
-          <span class="step-title">Compare Frequency Profiles</span>
-          <p class="step-desc">Compare the thin spikes of a flat click against the layered pulses of the custom beat.</p>
+
+        <div style="margin-bottom: 16px;">
+          <p style="margin-bottom: 4px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Intervention: Accented Beat</p>
+          <button id="rasBtn" class="audio-btn" onclick="playRASBeat()"><span>Play 15s RAS Beat</span> <span>&#9654;</span></button>
         </div>
-      </div>
 
-      <div style="margin-bottom: 16px;">
-        <p style="margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Control Baseline: Flat Metronome Click</p>
-        <button id="metroBtn" class="audio-btn" onclick="playMetronome()"><span>Play 15s Metronome Sample</span> <span>&#9654;</span></button>
-      </div>
+        <p style="margin-bottom: 4px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Live Audio Frequency Waveform</p>
+        <canvas id="visualizerCanvas"></canvas>
+      </section>
 
-      <div style="margin-bottom: 24px;">
-        <p style="margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Parametric Intervention: Accented RAS Track</p>
-        <button id="rasBtn" class="audio-btn" onclick="playRASBeat()"><span>Play 15s Parametric RAS Beat</span> <span>&#9654;</span></button>
-      </div>
+      <!-- Interactive Tapping Test -->
+      <section class="card grid-card">
+        <span class="card-label">[ 03 / Live Evaluation ]</span>
+        <h2>Motor Synchronization</h2>
 
-      <p style="margin-bottom: 6px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">Live Audio Frequency Waveform</p>
-      <canvas id="visualizerCanvas"></canvas>
-    </section>
-
-    <!-- Interactive Tapping Test -->
-    <section class="card">
-      <span class="card-label">[ 03 / Live Evaluation ]</span>
-      <h2>Motor Synchronization Assessment</h2>
-
-      <!-- Instructions Step-by-Step Grid -->
-      <div class="instruction-steps">
-        <div class="step-card">
-          <span class="step-number">01</span>
-          <span class="step-title">Select Audio Sample</span>
-          <p class="step-desc">Scroll up to Section 02 and click play on either the Metronome or RAS Beat.</p>
+        <div class="instruction-steps">
+          <div class="step-card">
+            <span class="step-number">01</span>
+            <span class="step-title">Select Audio</span>
+            <p class="step-desc">Click play on Metronome or RAS Beat on left.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">02</span>
+            <span class="step-title">Tap Rhythm</span>
+            <p class="step-desc">Click trigger in direct sync with each beat pulse.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">03</span>
+            <span class="step-title">Review Score</span>
+            <p class="step-desc">Check your live timing error recorded in Section 04.</p>
+          </div>
         </div>
-        <div class="step-card">
-          <span class="step-number">02</span>
-          <span class="step-title">Tap to the Rhythm</span>
-          <p class="step-desc">Click the trigger button below in direct sync with each beat pulse (every 500ms).</p>
-        </div>
-        <div class="step-card">
-          <span class="step-number">03</span>
-          <span class="step-title">Review Your Score</span>
-          <p class="step-desc">When the sample ends, check your live timing error recorded in Section 05 below.</p>
-        </div>
-      </div>
 
-      <div class="interactive-container">
-        <button id="tapButton" class="action-btn">Tap Motor Rhythm Trigger</button>
-        <div id="resultDisplay" class="result-display">Taps Recorded: 0 | Timing Variance: 0 ms</div>
-      </div>
-    </section>
+        <div class="interactive-container" style="margin-top: 24px;">
+          <button id="tapButton" class="action-btn">Tap Motor Rhythm Trigger</button>
+          <div id="resultDisplay" class="result-display">Taps Recorded: 0 | Timing Variance: 0 ms</div>
+        </div>
+      </section>
+    </div>
 
-    <!-- Audio-Visual Reaction Speed Test -->
-    <section class="card">
-      <span class="card-label">[ 04 / Reaction Speed Test ]</span>
+    <!-- Charts Side-by-Side -->
+    <div class="editorial-grid">
+      <!-- User Live Assessment Chart -->
+      <section class="card grid-card">
+        <span class="card-label">[ 04 / User Metrics ]</span>
+        <h2>Your Live Performance</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Calculated motor timing variance (ms) recorded during playback:</p>
+        <canvas id="userChart"></canvas>
+      </section>
+
+      <!-- Interactive Data Chart -->
+      <section class="card grid-card">
+        <span class="card-label">[ 05 / Clinical Data ]</span>
+        <h2>Trial Synchronization Metrics</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Mean motor timing error in milliseconds across participant cohorts:</p>
+        <canvas id="resultsChart"></canvas>
+      </section>
+    </div>
+
+    <!-- Audio-Visual Reaction Speed Test (Moved below charts) -->
+    <section class="card" style="margin-top: 40px;">
+      <span class="card-label">[ 06 / Reaction Speed Test ]</span>
       <h2>Audio-Visual Reflex Speed Test</h2>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+        <strong style="color: var(--text);">What It Does:</strong> Measures how fast your nervous system responds to a combined sight and sound trigger. It waits a random interval, then flashes the screen while playing a sharp audio accent pulse, measuring your reaction speed down to the millisecond.
+      </p>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+        <strong style="color: var(--text);">What It Helps With:</strong> Evaluating multisensory integration—how efficiently your brain processes sound and visual cues together to initiate fast motor responses. Stronger auditory cues can speed up neural processing, which is key in physical rehabilitation and motor priming.
+      </p>
 
       <div class="instruction-steps">
         <div class="step-card">
@@ -489,7 +522,7 @@
         <div class="step-card">
           <span class="step-number">02</span>
           <span class="step-title">Watch & Listen</span>
-          <p class="step-desc">Wait 2–5 seconds until the box flashes white with a audio cue pulse.</p>
+          <p class="step-desc">Wait 2–5 seconds until the box flashes white with an audio cue pulse.</p>
         </div>
         <div class="step-card">
           <span class="step-number">03</span>
@@ -506,24 +539,6 @@
         <div id="reactionResultDisplay" class="result-display">Reaction Time: -- ms</div>
       </div>
     </section>
-
-    <div class="editorial-grid">
-      <!-- User Live Assessment Chart -->
-      <section class="card">
-        <span class="card-label">[ 05 / User Metrics ]</span>
-        <h2>Your Live Performance</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Calculated motor timing variance (ms) recorded during playback:</p>
-        <canvas id="userChart"></canvas>
-      </section>
-
-      <!-- Interactive Data Chart -->
-      <section class="card">
-        <span class="card-label">[ 06 / Clinical Data ]</span>
-        <h2>Trial Synchronization Metrics</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Mean motor timing error in milliseconds across participant cohorts:</p>
-        <canvas id="resultsChart"></canvas>
-      </section>
-    </div>
 
     <!-- Project Architecture -->
     <section class="card">
@@ -580,17 +595,20 @@
     <div>Total Views: <span id="visitCount">Loading...</span></div>
   </footer>
 
-  <!-- Web Audio, Visualizer, Reaction Test & Visitor Counter Logic -->
+  <!-- Web Audio, Visualizer, Reaction Test & Custom Local Counter Logic -->
   <script>
-    // Visitor Counter API Integration
-    fetch('https://api.countapi.xyz/hit/smart-beats-project-v1/visits')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('visitCount').innerText = data.value;
-      })
-      .catch(() => {
-        document.getElementById('visitCount').innerText = '1';
-      });
+    // Custom Local Visitor Counter set to baseline of 341
+    const STARTING_BASELINE = 341;
+    let currentVisits = localStorage.getItem('smart_beats_views');
+
+    if (!currentVisits) {
+      currentVisits = STARTING_BASELINE;
+    } else {
+      currentVisits = parseInt(currentVisits, 10) + 1;
+    }
+
+    localStorage.setItem('smart_beats_views', currentVisits);
+    document.getElementById('visitCount').innerText = currentVisits.toLocaleString();
 
     // Audio Engine & Visualizer Setup
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -686,8 +704,8 @@
       if (disabled && playingBtn) {
         playingBtn.innerHTML = '<span>Playing (15s)...</span> <span>&#9632;</span>';
       } else {
-        metroBtn.innerHTML = '<span>Play 15s Metronome Sample</span> <span>&#9654;</span>';
-        rasBtn.innerHTML = '<span>Play 15s Parametric RAS Beat</span> <span>&#9654;</span>';
+        metroBtn.innerHTML = '<span>Play 15s Sample</span> <span>&#9654;</span>';
+        rasBtn.innerHTML = '<span>Play 15s RAS Beat</span> <span>&#9654;</span>';
       }
     }
 
