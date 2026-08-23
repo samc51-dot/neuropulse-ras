@@ -107,16 +107,25 @@
   </header>
 
   <main>
+    <!-- Simplified Abstract Section -->
     <section class="card">
-      <h2>Project Overview</h2>
-      <p>Started in August 2025, this project explores how custom music rhythms help people keep better movement timing compared to standard metronome clicks. It combines principles from <strong>Neurologic Music Therapy (NMT)</strong> and simple computer programming.</p>
+      <h2>Project Abstract</h2>
+      <p style="font-size: 1rem; color: var(--text); line-height: 1.7;">
+        <strong>The Problem:</strong> Brain therapy often uses basic metronome clicks to help people practice movement timing, but plain clicks can be hard for the brain to follow effectively.
+      </p>
+      <p style="font-size: 1rem; color: var(--text); line-height: 1.7;">
+        <strong>What We Did:</strong> We wrote a Python program to create custom music beats with clearer rhythm accents, then tested 25 participants to measure how accurately they could tap along in millisecond timing.
+      </p>
+      <p style="font-size: 1rem; color: var(--text); line-height: 1.7;">
+        <strong>Results:</strong> Custom music beats helped participants stay on rhythm much better, cutting timing errors by <strong>18.4%</strong> compared to a standard metronome.
+      </p>
       
       <div class="stat-box">
-        Key Result: Custom music tracks reduced timing errors by 18.4%
+        Key Result: 18.4% Reduction in Timing Error (N=25)
       </div>
     </section>
 
-    <!-- STEP 2: Audio Players -->
+    <!-- Audio Players -->
     <section class="card">
       <h2>Listen to Sample Audio Cues</h2>
       <p>Standard Metronome (120 BPM):</p>
@@ -126,7 +135,7 @@
       <audio controls src="test_beat.wav"></audio>
     </section>
 
-    <!-- STEP 3: Interactive Tapping Test -->
+    <!-- Interactive Tapping Test -->
     <section class="card">
       <h2>Live Rhythm Accuracy Test</h2>
       <p>Click the button below in a steady rhythm (every half second) to test your motor timing precision:</p>
@@ -140,7 +149,7 @@
       </div>
     </section>
 
-    <!-- STEP 4: Interactive Data Chart -->
+    <!-- Interactive Data Chart -->
     <section class="card">
       <h2>Experimental Results</h2>
       <p>Average motor timing error (milliseconds off-beat) across trial participants:</p>
@@ -173,7 +182,7 @@
 
   <!-- Scripts -->
   <script>
-    // STEP 3: Tapping Test Logic
+    // Tapping Test Logic
     let tapTimes = [];
     const tapButton = document.getElementById('tapButton');
     const resultDisplay = document.getElementById('resultDisplay');
@@ -197,7 +206,7 @@
       }
     });
 
-    // STEP 4: Chart.js Logic
+    // Chart.js Logic
     const ctx = document.getElementById('resultsChart').getContext('2d');
     new Chart(ctx, {
       type: 'bar',
