@@ -213,6 +213,12 @@
       border-top: 1px solid var(--card-border);
     }
 
+    .visit-counter {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--cyan);
+    }
+
     a {
       color: var(--cyan);
       text-decoration: none;
@@ -226,7 +232,7 @@
 <body>
 
   <header>
-    <div class="badge">Neurologic Music Therapy &bull; R&D Platform</div>
+    <div class="badge">Neurologic Music Therapy | R&D Platform</div>
     <h1>Smart Beats</h1>
     <p class="tagline">Targeted Auditory Entrainment for Neuromotor Rehabilitation & Precision Synchronization</p>
   </header>
@@ -310,11 +316,23 @@
   </main>
 
   <footer>
-    <p>Smart Beats Research Platform &bull; Open Source Initiative &bull; <a href="https://github.com">GitHub Repository</a></p>
+    <p>Smart Beats Research Platform | Open Source Initiative | <a href="https://github.com">GitHub Repository</a></p>
+    <div class="visit-counter">Total Page Views: <span id="visitCount">Loading...</span></div>
   </footer>
 
-  <!-- Web Audio & Analytics Logic -->
+  <!-- Web Audio, Analytics, & Visitor Counter Logic -->
   <script>
+    // 0. Visitor Counter API Integration
+    fetch('https://api.countapi.xyz/hit/smart-beats-project-v1/visits')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('visitCount').innerText = data.value;
+      })
+      .catch(() => {
+        document.getElementById('visitCount').innerText = '--';
+      });
+
+    // Audio Engine & Assessment Logic
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let isPlaying = false;
     let currentSampleType = null; // 'metro' or 'ras'
@@ -520,7 +538,7 @@
         scales: {
           y: {
             beginAtZero: true,
-            title: { display: true, text: 'Timing Error (Milliseconds - Lower is Better)', color: '#94a3b8' },
+            title: { display: true, text: 'Timing Error (Milliseconds, Lower is Better)', color: '#94a3b8' },
             ticks: { color: '#94a3b8' },
             grid: { color: '#1e3648' }
           },
