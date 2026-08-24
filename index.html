@@ -999,23 +999,38 @@
 
     function finishClockTest() {
       isClockRunning = false;
-      document.getElementById('startClockBtn').style.display = 'inline-block';
+      const startBtn = document.getElementById('startClockBtn');
+      startBtn.style.display = 'inline-block';
+      startBtn.disabled = true;
       document.getElementById('clockTapBtn').style.display = 'none';
 
       if (clockTaps.length < 4) {
         document.getElementById('clockResultDisplay').innerText = 'Internal Drift: Not enough taps recorded during test.';
-        return;
+      } else {
+        let silentIntervals = [];
+        for (let i = 1; i < clockTaps.length; i++) {
+          silentIntervals.push(clockTaps[i] - clockTaps[i - 1]);
+        }
+
+        let totalDrift = silentIntervals.reduce((acc, val) => acc + Math.abs(val - 500), 0);
+        let avgDrift = Math.round(totalDrift / silentIntervals.length);
+
+        document.getElementById('clockResultDisplay').innerText = `Internal Drift: ${avgDrift} ms average deviation during silence`;
       }
 
-      let silentIntervals = [];
-      for (let i = 1; i < clockTaps.length; i++) {
-        silentIntervals.push(clockTaps[i] - clockTaps[i - 1]);
-      }
-
-      let totalDrift = silentIntervals.reduce((acc, val) => acc + Math.abs(val - 500), 0);
-      let avgDrift = Math.round(totalDrift / silentIntervals.length);
-
-      document.getElementById('clockResultDisplay').innerText = `Internal Drift: ${avgDrift} ms average deviation during silence`;
+      // 5-Second Cooldown
+      let cooldown = 5;
+      startBtn.innerText = `Cooldown (${cooldown}s)`;
+      const cooldownInterval = setInterval(() => {
+        cooldown--;
+        if (cooldown > 0) {
+          startBtn.innerText = `Cooldown (${cooldown}s)`;
+        } else {
+          clearInterval(cooldownInterval);
+          startBtn.disabled = false;
+          startBtn.innerText = 'Start Internal Clock Test';
+        }
+      }, 1000);
     }
 
     /* Off-Beat Suppression Logic */
@@ -1080,7 +1095,9 @@
 
     function finishSuppressTest() {
       isSuppressRunning = false;
-      document.getElementById('startSuppressBtn').style.display = 'inline-block';
+      const startBtn = document.getElementById('startSuppressBtn');
+      startBtn.style.display = 'inline-block';
+      startBtn.disabled = true;
       document.getElementById('suppressTapBtn').style.display = 'none';
       document.getElementById('suppressBox').style.backgroundColor = 'var(--card-bg)';
       document.getElementById('suppressBoxText').style.color = 'var(--text-muted)';
@@ -1088,6 +1105,20 @@
 
       let correctPercentage = Math.max(0, Math.round(((suppressUserTaps - suppressFalsePositives) / suppressTargetBeats) * 100));
       document.getElementById('suppressResultDisplay').innerText = `Suppression Accuracy: ${correctPercentage}% (${suppressUserTaps} Sync Taps | ${suppressFalsePositives} Off-Beat Errors)`;
+
+      // 5-Second Cooldown
+      let cooldown = 5;
+      startBtn.innerText = `Cooldown (${cooldown}s)`;
+      const cooldownInterval = setInterval(() => {
+        cooldown--;
+        if (cooldown > 0) {
+          startBtn.innerText = `Cooldown (${cooldown}s)`;
+        } else {
+          clearInterval(cooldownInterval);
+          startBtn.disabled = false;
+          startBtn.innerText = 'Start Suppression Test';
+        }
+      }, 1000);
     }
 
     // Clinical Chart Setup
