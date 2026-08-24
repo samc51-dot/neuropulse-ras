@@ -940,6 +940,7 @@
     /* Phase Resetting Logic */
     let clockTaps = [];
     let isClockRunning = false;
+    let isClockInCooldown = false;
     let clockAudioTimer = null;
 
     function playTone(freq, duration, volume = 0.2) {
@@ -956,7 +957,7 @@
     }
 
     function startClockTest() {
-      if (isClockRunning) return;
+      if (isClockRunning || isClockInCooldown) return;
       isClockRunning = true;
       clockTaps = [];
 
@@ -998,11 +999,16 @@
     }
 
     function finishClockTest() {
+      if (!isClockRunning) return;
       isClockRunning = false;
+      isClockInCooldown = true;
+
       const startBtn = document.getElementById('startClockBtn');
+      const tapBtn = document.getElementById('clockTapBtn');
+
+      tapBtn.style.display = 'none';
       startBtn.style.display = 'inline-block';
       startBtn.disabled = true;
-      document.getElementById('clockTapBtn').style.display = 'none';
 
       if (clockTaps.length < 4) {
         document.getElementById('clockResultDisplay').innerText = 'Internal Drift: Not enough taps recorded during test.';
@@ -1018,15 +1024,17 @@
         document.getElementById('clockResultDisplay').innerText = `Internal Drift: ${avgDrift} ms average deviation during silence`;
       }
 
-      // 5-Second Cooldown
+      // 5-Second Cooldown Countdown
       let cooldown = 5;
       startBtn.innerText = `Cooldown (${cooldown}s)`;
+
       const cooldownInterval = setInterval(() => {
         cooldown--;
         if (cooldown > 0) {
           startBtn.innerText = `Cooldown (${cooldown}s)`;
         } else {
           clearInterval(cooldownInterval);
+          isClockInCooldown = false;
           startBtn.disabled = false;
           startBtn.innerText = 'Start Internal Clock Test';
         }
@@ -1035,6 +1043,7 @@
 
     /* Off-Beat Suppression Logic */
     let isSuppressRunning = false;
+    let isSuppressInCooldown = false;
     let suppressTimer = null;
     let suppressTargetBeats = 0;
     let suppressUserTaps = 0;
@@ -1042,7 +1051,7 @@
     let lastMainBeatTime = 0;
 
     function startSuppressTest() {
-      if (isSuppressRunning) return;
+      if (isSuppressRunning || isSuppressInCooldown) return;
       isSuppressRunning = true;
       suppressTargetBeats = 0;
       suppressUserTaps = 0;
@@ -1094,11 +1103,17 @@
     }
 
     function finishSuppressTest() {
+      if (!isSuppressRunning) return;
       isSuppressRunning = false;
+      isSuppressInCooldown = true;
+
       const startBtn = document.getElementById('startSuppressBtn');
+      const tapBtn = document.getElementById('suppressTapBtn');
+
+      tapBtn.style.display = 'none';
       startBtn.style.display = 'inline-block';
       startBtn.disabled = true;
-      document.getElementById('suppressTapBtn').style.display = 'none';
+
       document.getElementById('suppressBox').style.backgroundColor = 'var(--card-bg)';
       document.getElementById('suppressBoxText').style.color = 'var(--text-muted)';
       document.getElementById('suppressBoxText').innerText = 'Test Completed';
@@ -1106,15 +1121,17 @@
       let correctPercentage = Math.max(0, Math.round(((suppressUserTaps - suppressFalsePositives) / suppressTargetBeats) * 100));
       document.getElementById('suppressResultDisplay').innerText = `Suppression Accuracy: ${correctPercentage}% (${suppressUserTaps} Sync Taps | ${suppressFalsePositives} Off-Beat Errors)`;
 
-      // 5-Second Cooldown
+      // 5-Second Cooldown Countdown
       let cooldown = 5;
       startBtn.innerText = `Cooldown (${cooldown}s)`;
+
       const cooldownInterval = setInterval(() => {
         cooldown--;
         if (cooldown > 0) {
           startBtn.innerText = `Cooldown (${cooldown}s)`;
         } else {
           clearInterval(cooldownInterval);
+          isSuppressInCooldown = false;
           startBtn.disabled = false;
           startBtn.innerText = 'Start Suppression Test';
         }
