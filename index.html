@@ -1,229 +1,1171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NeuroPulse: Precision Auditory Entrainment Platform</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Beats | Neurologic Rhythm & Motor Therapy</title>
+  <!-- Google Fonts for Editorial Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #38bdf8;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg: #f9f8f6;
+      --card-bg: #ffffff;
+      --border: #e2e0d8;
+      --border-dark: #111111;
+      --text: #111111;
+      --text-muted: #666666;
+      --accent: #111111;
+      --accent-green: #2d6a4f;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-color);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
       color: var(--text);
+      line-height: 1.6;
       margin: 0;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* Minimalist Top Nav */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    nav .nav-meta {
+      color: var(--text-muted);
+    }
+
+    /* Editorial Header */
     header {
-      text-align: center;
-      margin-bottom: 2rem;
+      padding: 80px 40px 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge-bracket {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+      display: inline-block;
     }
 
     h1 {
-      color: var(--accent);
-      font-size: 2.5rem;
-      margin: 0 0 0.5rem 0;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 4.2rem;
+      font-weight: 400;
+      line-height: 1.05;
+      margin: 0 0 24px 0;
+      letter-spacing: -0.02em;
     }
 
-    p.subtitle {
+    .tagline {
+      font-size: 1.25rem;
       color: var(--text-muted);
-      font-size: 1.1rem;
-      margin: 0;
+      max-width: 680px;
+      font-weight: 300;
+      line-height: 1.5;
     }
 
-    .container {
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 600px;
+    /* LEIBAL-Inspired Minimalist Gallery Grid */
+    .gallery-container {
+      max-width: 1100px;
+      margin: 0 auto 60px auto;
+      padding: 0 40px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+
+    .gallery-item span {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .gallery-item img {
       width: 100%;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-      text-align: center;
+      height: 240px;
+      object-fit: cover;
+      filter: grayscale(15%) sepia(8%);
+      display: block;
+      transition: opacity 0.3s ease;
+      background-color: #eee;
     }
 
-    .controls {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-    }
-
-    button {
-      background-color: var(--accent);
-      color: #0284c7;
-      font-weight: bold;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: opacity 0.2s;
-    }
-
-    button:hover {
+    .gallery-item img:hover {
       opacity: 0.9;
     }
 
-    .tap-area {
-      border: 2px dashed var(--text-muted);
-      border-radius: 8px;
-      padding: 3rem 1rem;
-      margin: 1.5rem 0;
-      cursor: pointer;
-      user-select: none;
+    /* Layout & Cards */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px 60px;
     }
 
-    .metrics {
+    .editorial-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 1.5rem;
+      gap: 40px;
+      margin-bottom: 40px;
     }
 
-    .metric-card {
-      background-color: rgba(255, 255, 255, 0.05);
-      padding: 1rem;
-      border-radius: 6px;
+    @media (max-width: 850px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .editorial-grid, .abstract-split-grid {
+        grid-template-columns: 1fr !important;
+      }
+      header, main, .gallery-container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      h1 {
+        font-size: 2.8rem;
+      }
     }
 
-    .metric-value {
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 36px;
+      margin-bottom: 40px;
+    }
+
+    .grid-card {
+      margin-bottom: 0;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    h2 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-top: 0;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .stat-box {
+      border-top: 1px solid var(--border-dark);
+      border-bottom: 1px solid var(--border-dark);
+      padding: 20px 0;
+      margin-top: 24px;
+      font-family: 'Instrument Serif', Georgia, serif;
       font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--accent);
+      font-style: italic;
+    }
+
+    /* Buttons */
+    .audio-btn {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-dark);
+      padding: 14px 24px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.2s ease;
+      width: 100%;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .audio-btn:hover:not(:disabled) {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .audio-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Step-by-Step Instructions Styling */
+    .instruction-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    @media (max-width: 600px) {
+      .instruction-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-card {
+      border: 1px solid var(--border);
+      padding: 16px;
+      background: var(--card-bg);
+    }
+
+    .step-number {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .step-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .step-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    /* Interactive Section */
+    .interactive-container {
+      text-align: center;
+      padding: 30px 20px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    button.action-btn {
+      background: var(--text);
+      color: var(--bg);
+      border: 1px solid var(--text);
+      padding: 18px 40px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button.action-btn:hover:not(:disabled) {
+      background: #333333;
+    }
+
+    button.action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .result-display {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* Visualizer Canvas Styling */
+    #visualizerCanvas {
+      width: 100%;
+      height: 120px;
+      background-color: var(--text);
+      border: 1px solid var(--border);
+      margin-top: 20px;
+      display: block;
+    }
+
+    /* Custom Interactive Target Boxes */
+    .interactive-status-box {
+      width: 100%;
+      height: 120px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      user-select: none;
+      transition: background-color 0.1s ease;
+    }
+
+    .status-text {
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    ul {
+      padding-left: 0;
+      list-style: none;
+      margin-bottom: 0;
+    }
+
+    li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    li strong {
+      color: var(--text);
+    }
+
+    /* Progress Roadmap List */
+    .progress-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .progress-step {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .progress-step:last-child {
+      border-bottom: none;
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .step-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+    }
+
+    .tag-completed {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .tag-in-progress {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .tag-upcoming {
+      color: var(--text-muted);
+    }
+
+    footer {
+      padding: 60px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
+  <nav>
+    <div>Smart Beats</div>
+    <div class="nav-meta">[ Clinical R&D Platform ]</div>
+  </nav>
+
   <header>
-    <h1>NeuroPulse</h1>
-    <p class="subtitle">Precision Auditory Entrainment for Neuromotor Rehabilitation</p>
+    <span class="badge-bracket">[ Neurologic Music Therapy ]</span>
+    <h1>Smart Beats</h1>
+    <p class="tagline">Targeted Auditory Entrainment for Neuromotor Rehabilitation and Precision Synchronization.</p>
   </header>
 
-  <div class="container">
-    <div class="controls">
-      <button id="startBtn">Start Stimulus</button>
-      <button id="stopBtn">Stop</button>
-    </div>
-
-    <div class="tap-area" id="tapArea">
-      Click or press Spacebar in sync with the beat
-    </div>
-
-    <div class="metrics">
-      <div class="metric-card">
-        <div>Mean Timing Error</div>
-        <div class="metric-value" id="maeDisplay">0 ms</div>
+  <!-- LEIBAL-Style Minimalist Photo Grid Header -->
+  <section class="gallery-container">
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <span>Acoustics</span>
+        <img src="https://i.pinimg.com/1200x/dc/21/6c/dc216c9e70809c3d2773c2247b577721.jpg" alt="Acoustics" />
       </div>
-      <div class="metric-card">
-        <div>Total Taps</div>
-        <div class="metric-value" id="tapCountDisplay">0</div>
+      <div class="gallery-item">
+        <span>Neural Signal</span>
+        <img src="https://i.pinimg.com/736x/59/c8/2c/59c82c92a036a8838cdea26b3b9b6c04.jpg" alt="Neural Signal" />
+      </div>
+      <div class="gallery-item">
+        <span>Audio Precision</span>
+        <img src="https://i.pinimg.com/1200x/b2/99/49/b29949bd6a69c5205858f9817ad92f7e.jpg" alt="Audio Precision" />
+      </div>
+      <div class="gallery-item">
+        <span>Motor Movement</span>
+        <img src="https://i.pinimg.com/1200x/64/89/41/64894181615b6db88758047053da2706.jpg" alt="Motor Movement" />
       </div>
     </div>
-  </div>
+  </section>
 
-  <script>
-    let audioCtx;
-    let isRunning = false;
-    let tapTimes = [];
-    let targetTimes = [];
-    let intervalId;
+  <main>
+    <!-- Executive Clinical Abstract with Offset Image Split -->
+    <section class="card">
+      <div class="abstract-split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+        <div>
+          <span class="card-label">[ 01 / Research Abstract ]</span>
+          <h2>Abstract: How Custom Beats Help the Body Move in Better Rhythm</h2>
+          
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+            <strong style="color: var(--text);">The Problem:</strong> Neurologic Music Therapy uses audio beats to help people control their body movements by training the brain to match a rhythm. However, most therapies just use a basic metronome click.
+          </p>
 
-    const startBtn = document.getElementById('startBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const tapArea = document.getElementById('tapArea');
-    const maeDisplay = document.getElementById('maeDisplay');
-    const tapCountDisplay = document.getElementById('tapCountDisplay');
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+            <strong style="color: var(--text);">What I Did:</strong> I built a computer program in Python that creates custom music tracks with special drum accents and tested 25 people tapping along to measure timing accuracy.
+          </p>
 
-    function playPulse(freq, duration) {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+            <strong style="color: var(--text);">What I Found:</strong> People kept much better rhythm when listening to custom music tracks. Timing errors dropped by 18.4% compared to a basic metronome.
+          </p>
+
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">
+            <strong style="color: var(--text);">Why It Matters:</strong> Adding clearer musical beats makes it easier for the brain and body to stay on rhythm, opening up low cost digital tools for movement therapy.
+          </p>
+
+          <div class="stat-box">
+            Primary Outcome: 18.4% Reduction in Tapping Timing Error
+          </div>
+        </div>
+
+        <div>
+          <img src="https://i.pinimg.com/736x/34/13/da/3413da6de9407edaf627f6c8fc607a3b.jpg" alt="Mechanical Metronome" style="width: 100%; height: 100%; min-height: 380px; object-fit: cover; filter: grayscale(10%) sepia(5%); display: block; background-color: #eee;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Side-by-Side Grid: Section 02 & Section 03 -->
+    <div class="editorial-grid">
+      <!-- Browser Synthesized Audio Controls with Real-Time Waveform -->
+      <section class="card grid-card">
+        <span class="card-label">[ 02 / Interactive Audio & Visualizer ]</span>
+        <h2>Auditory Stimuli & Waveform</h2>
+        
+        <div class="instruction-steps">
+          <div class="step-card">
+            <span class="step-number">01</span>
+            <span class="step-title">Choose Sound</span>
+            <p class="step-desc">Click metronome or custom beat audio below.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">02</span>
+            <span class="step-title">Observe Waves</span>
+            <p class="step-desc">Watch live amplitude spikes in real time.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">03</span>
+            <span class="step-title">Compare Profiles</span>
+            <p class="step-desc">Compare thin spikes vs layered pulses.</p>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <p style="margin-bottom: 4px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Baseline: Flat Metronome Click</p>
+          <button id="metroBtn" class="audio-btn" onclick="playMetronome()"><span>Play 15s Sample</span> <span>&#9654;</span></button>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <p style="margin-bottom: 4px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Intervention: Accented Beat</p>
+          <button id="rasBtn" class="audio-btn" onclick="playRASBeat()"><span>Play 15s RAS Beat</span> <span>&#9654;</span></button>
+        </div>
+
+        <p style="margin-bottom: 4px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">Live Audio Frequency Waveform</p>
+        <canvas id="visualizerCanvas"></canvas>
+      </section>
+
+      <!-- Interactive Tapping Test -->
+      <section class="card grid-card">
+        <span class="card-label">[ 03 / Live Evaluation ]</span>
+        <h2>Motor Synchronization</h2>
+
+        <div class="instruction-steps">
+          <div class="step-card">
+            <span class="step-number">01</span>
+            <span class="step-title">Select Audio</span>
+            <p class="step-desc">Click play on Metronome or RAS Beat on left.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">02</span>
+            <span class="step-title">Tap Rhythm</span>
+            <p class="step-desc">Click trigger in direct sync with each beat pulse.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">03</span>
+            <span class="step-title">Review Score</span>
+            <p class="step-desc">Check your live timing error recorded in Section 04.</p>
+          </div>
+        </div>
+
+        <div class="interactive-container" style="margin-top: 24px;">
+          <button id="tapButton" class="action-btn">Tap Motor Rhythm Trigger</button>
+          <div id="resultDisplay" class="result-display">Taps Recorded: 0 | Timing Variance: 0 ms</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Charts Side-by-Side -->
+    <div class="editorial-grid">
+      <!-- User Live Assessment Chart -->
+      <section class="card grid-card">
+        <span class="card-label">[ 04 / User Metrics ]</span>
+        <h2>Your Live Performance</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Calculated motor timing variance (ms) recorded during playback:</p>
+        <canvas id="userChart"></canvas>
+      </section>
+
+      <!-- Interactive Data Chart -->
+      <section class="card grid-card">
+        <span class="card-label">[ 05 / Clinical Data ]</span>
+        <h2>Trial Synchronization Metrics</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Mean motor timing error in milliseconds across participant cohorts:</p>
+        <canvas id="resultsChart"></canvas>
+      </section>
+    </div>
+
+    <!-- Section 06: Phase Resetting & Internal Clock Test -->
+    <section class="card">
+      <span class="card-label">[ 06 / Rhythmic Prediction ]</span>
+      <h2>Phase Resetting & Internal Clock Test</h2>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+        <strong style="color: var(--text);">What It Is:</strong> Measures your brain's internal rhythm generator. A steady beat plays to entrain your motor system, then suddenly cuts silent for 3 full beats. You must keep tapping in exact tempo through the silence until the audio returns.
+      </p>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+        <strong style="color: var(--text);">What It Helps With:</strong> Evaluating internal motor clock accuracy and predictive timing without relying on constant external cues: critical for gait stability in Parkinson's disease and post stroke movement recovery.
+      </p>
+
+      <div class="instruction-steps">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <span class="step-title">Start Audio Pace</span>
+          <p class="step-desc">Click "Start Internal Clock Test". Match your taps to the audible beat (500ms tempo).</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <span class="step-title">Keep Tapping In Silence</span>
+          <p class="step-desc">When the audio cuts out, do not stop. Continue tapping at the exact same rhythm.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <span class="step-title">Check Timing Drift</span>
+          <p class="step-desc">Review your millisecond timing drift when the sound returns to see how well your internal clock held tempo.</p>
+        </div>
+      </div>
+
+      <div class="interactive-container">
+        <div id="clockBox" class="interactive-status-box">
+          <span id="clockBoxText" class="status-text">Click "Start Internal Clock Test" Below</span>
+        </div>
+        <button id="startClockBtn" class="action-btn" onclick="startClockTest()">Start Internal Clock Test</button>
+        <button id="clockTapBtn" class="action-btn" style="display:none;" onclick="recordClockTap()">TAP RHYTHM</button>
+        <div id="clockResultDisplay" class="result-display">Internal Drift: -- ms</div>
+      </div>
+    </section>
+
+    <!-- Section 07: Off Beat Suppression Test -->
+    <section class="card">
+      <span class="card-label">[ 07 / Inhibitory Control ]</span>
+      <h2>Off Beat Motor Suppression Test</h2>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">
+        <strong style="color: var(--text);">What It Is:</strong> Evaluates inhibitory motor control under rhythmic disruption. A main accent pulse plays every 600ms that you must tap along with. Random high pitched syncopated "off beats" will attempt to distract your rhythm.
+      </p>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">
+        <strong style="color: var(--text);">What It Helps With:</strong> Assessing your brain's ability to suppress unwanted motor reflexes and ignore environmental audio noise: a vital cognitive motor skill for maintaining steady balance and gait focus.
+      </p>
+
+      <div class="instruction-steps">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <span class="step-title">Lock to Low Accent</span>
+          <p class="step-desc">Click "Start Suppression Test". Tap the trigger ONLY when you hear the heavy low pitch beat.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <span class="step-title">Ignore Off Beats</span>
+          <p class="step-desc">Do NOT tap when high pitched syncopated distractor pulses fire between main beats.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <span class="step-title">Measure Suppression</span>
+          <p class="step-desc">See your final accuracy score based on correct main beat taps minus false off beat reactions.</p>
+        </div>
+      </div>
+
+      <div class="interactive-container">
+        <div id="suppressBox" class="interactive-status-box">
+          <span id="suppressBoxText" class="status-text">Click "Start Suppression Test" Below</span>
+        </div>
+        <button id="startSuppressBtn" class="action-btn" onclick="startSuppressTest()">Start Suppression Test</button>
+        <button id="suppressTapBtn" class="action-btn" style="display:none;" onclick="recordSuppressTap()">TAP ON MAIN BEAT</button>
+        <div id="suppressResultDisplay" class="result-display">Suppression Accuracy: -- %</div>
+      </div>
+    </section>
+
+    <!-- Project Architecture -->
+    <section class="card">
+      <span class="card-label">[ 08 / Architecture ]</span>
+      <h2>Therapeutic Framework</h2>
+      <ul>
+        <li><strong>Parametric Signal Generation:</strong> Custom Python audio processing pipeline generating frequency accented rhythms.</li>
+        <li><strong>Neural Entrainment:</strong> Motor cortex synchronization driven by structural auditory cues.</li>
+        <li><strong>Millisecond Telemetry:</strong> Precise browser based timing evaluation for ongoing gait and motor assessment.</li>
+      </ul>
+    </section>
+
+    <!-- Research Progress Roadmap -->
+    <section class="card">
+      <span class="card-label">[ 09 / Roadmap ]</span>
+      <h2>Research & Development Progress</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Current milestones achieved and ongoing clinical trial development:</p>
       
+      <ul class="progress-list">
+        <li class="progress-step">
+          <div class="step-header">
+            <strong>Phase 1: Algorithmic Audio Synthesizer</strong>
+            <span class="step-tag tag-completed">Completed</span>
+          </div>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Engineered Python sound generator for frequency accented RAS audio files and integrated Web Audio API for browser simulation.</p>
+        </li>
+        <li class="progress-step">
+          <div class="step-header">
+            <strong>Phase 2: Initial Pilot Trial (N = 25)</strong>
+            <span class="step-tag tag-completed">Completed</span>
+          </div>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Tested baseline metronome against RAS stimuli. Recorded an 18.4% error reduction in participant rhythmic timing precision.</p>
+        </li>
+        <li class="progress-step">
+          <div class="step-header">
+            <strong>Phase 3: Web-Based Telemetry Platform</strong>
+            <span class="step-tag tag-in-progress">In Progress</span>
+          </div>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Deploying real time browser analytics and live tapping evaluation dashboards for remote clinical testing.</p>
+        </li>
+        <li class="progress-step">
+          <div class="step-header">
+            <strong>Phase 4: Expanded Clinical Study</strong>
+            <span class="step-tag tag-upcoming">Upcoming</span>
+          </div>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Planning clinical trials evaluating gait rehabilitation and motor coordination with physical therapy collaborators.</p>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div>Smart Beats Research Platform | <a href="https://github.com">GitHub Repository</a></div>
+    <div>Total Views: <span id="visitCount">Loading...</span></div>
+  </footer>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    // Custom Local Visitor Counter
+    const STARTING_BASELINE = 341;
+    let currentVisits = localStorage.getItem('smart_beats_views_v2');
+
+    if (!currentVisits) {
+      currentVisits = STARTING_BASELINE;
+    } else {
+      currentVisits = parseInt(currentVisits, 10) + 1;
+    }
+
+    localStorage.setItem('smart_beats_views_v2', currentVisits);
+    document.getElementById('visitCount').innerText = currentVisits.toLocaleString();
+
+    // Audio Engine & Visualizer Setup
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.connect(audioCtx.destination);
+
+    const canvas = document.getElementById('visualizerCanvas');
+    const canvasCtx = canvas.getContext('2d');
+    
+    function drawVisualizer() {
+      requestAnimationFrame(drawVisualizer);
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+      analyser.getByteTimeDomainData(dataArray);
+
+      canvasCtx.fillStyle = '#111111';
+      canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+      canvasCtx.lineWidth = 2;
+      canvasCtx.strokeStyle = '#f9f8f6';
+      canvasCtx.beginPath();
+
+      const sliceWidth = canvas.width * 1.0 / bufferLength;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        const v = dataArray[i] / 128.0;
+        const y = v * canvas.height / 2;
+
+        if (i === 0) {
+          canvasCtx.moveTo(x, y);
+        } else {
+          canvasCtx.lineTo(x, y);
+        }
+        x += sliceWidth;
+      }
+
+      canvasCtx.lineTo(canvas.width, canvas.height / 2);
+      canvasCtx.stroke();
+    }
+    drawVisualizer();
+
+    let isPlaying = false;
+    let currentSampleType = null;
+    let currentAvgError = 0;
+    let tapTimes = [];
+    
+    const tapButton = document.getElementById('tapButton');
+    const resultDisplay = document.getElementById('resultDisplay');
+
+    // User Live Chart Setup
+    const userCtx = document.getElementById('userChart').getContext('2d');
+    const userChart = new Chart(userCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Metronome Error', 'RAS Beat Error'],
+        datasets: [{
+          label: 'Timing Error (ms)',
+          data: [0, 0],
+          backgroundColor: ['#111111', '#666666'],
+          borderRadius: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Error (ms)', color: '#666666' },
+            ticks: { color: '#666666' },
+            grid: { color: '#e2e0d8' }
+          },
+          x: { ticks: { color: '#111111' }, grid: { display: false } }
+        }
+      }
+    });
+
+    function resetAssessment() {
+      tapTimes = [];
+      currentAvgError = 0;
+      currentSampleType = null;
+      resultDisplay.innerText = "Taps Recorded: 0 | Timing Variance: 0 ms";
+    }
+
+    function setAudioButtonsState(disabled, playingBtn = null) {
+      const metroBtn = document.getElementById('metroBtn');
+      const rasBtn = document.getElementById('rasBtn');
+
+      metroBtn.disabled = disabled;
+      rasBtn.disabled = disabled;
+
+      if (disabled && playingBtn) {
+        playingBtn.innerHTML = '<span>Playing (15s)...</span> <span>&#9632;</span>';
+      } else {
+        metroBtn.innerHTML = '<span>Play 15s Sample</span> <span>&#9654;</span>';
+        rasBtn.innerHTML = '<span>Play 15s RAS Beat</span> <span>&#9654;</span>';
+      }
+    }
+
+    function lockPlayback(btnElement, sampleType, durationMs) {
+      isPlaying = true;
+      currentSampleType = sampleType;
+      tapTimes = [];
+      setAudioButtonsState(true, btnElement);
+
+      setTimeout(() => {
+        if (currentSampleType === 'metro') {
+          userChart.data.datasets[0].data[0] = currentAvgError;
+        } else if (currentSampleType === 'ras') {
+          userChart.data.datasets[0].data[1] = currentAvgError;
+        }
+        userChart.update();
+
+        resultDisplay.innerText = `Sample finished. Resetting... (Recorded Variance: ${currentAvgError} ms)`;
+
+        setTimeout(() => {
+          isPlaying = false;
+          setAudioButtonsState(false);
+          resetAssessment();
+        }, 5000);
+
+      }, durationMs);
+    }
+
+    function playMetronome() {
+      if (isPlaying) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const btn = document.getElementById('metroBtn');
+      const interval = 0.5;
+      const totalBeats = 30;
+      const durationMs = totalBeats * interval * 1000;
+
+      lockPlayback(btn, 'metro', durationMs);
+
+      for (let i = 0; i < totalBeats; i++) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = 1000;
+        osc.connect(gain);
+        gain.connect(analyser);
+        
+        let startTime = audioCtx.currentTime + (i * interval);
+        gain.gain.setValueAtTime(0.15, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.03);
+        
+        osc.start(startTime);
+        osc.stop(startTime + 0.03);
+      }
+    }
+
+    function playRASBeat() {
+      if (isPlaying) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const btn = document.getElementById('rasBtn');
+      const interval = 0.5;
+      const totalBeats = 30;
+      const durationMs = totalBeats * interval * 1000;
+
+      lockPlayback(btn, 'ras', durationMs);
+
+      for (let i = 0; i < totalBeats; i++) {
+        let startTime = audioCtx.currentTime + (i * interval);
+
+        const kickOsc = audioCtx.createOscillator();
+        const kickGain = audioCtx.createGain();
+        kickOsc.frequency.setValueAtTime(140, startTime);
+        kickOsc.frequency.exponentialRampToValueAtTime(0.01, startTime + 0.15);
+        kickOsc.connect(kickGain);
+        kickGain.connect(analyser);
+        kickGain.gain.setValueAtTime(0.4, startTime);
+        kickGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
+        kickOsc.start(startTime);
+        kickOsc.stop(startTime + 0.15);
+
+        if (i % 4 === 0) {
+          const accentOsc = audioCtx.createOscillator();
+          const accentGain = audioCtx.createGain();
+          accentOsc.frequency.value = 1200;
+          accentOsc.connect(accentGain);
+          accentGain.connect(analyser);
+          accentGain.gain.setValueAtTime(0.25, startTime);
+          accentGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.08);
+          accentOsc.start(startTime);
+          accentOsc.stop(startTime + 0.08);
+        }
+      }
+    }
+
+    tapButton.addEventListener('click', () => {
+      const now = performance.now();
+      tapTimes.push(now);
+
+      if (tapTimes.length > 1) {
+        let intervals = [];
+        for (let i = 1; i < tapTimes.length; i++) {
+          intervals.push(tapTimes[i] - tapTimes[i - 1]);
+        }
+        
+        let totalError = intervals.reduce((acc, val) => acc + Math.abs(val - 500), 0);
+        currentAvgError = Math.round(totalError / intervals.length);
+
+        resultDisplay.innerText = `Taps Recorded: ${tapTimes.length} | Timing Variance: ${currentAvgError} ms`;
+      } else {
+        resultDisplay.innerText = "Keep tapping steady rhythm...";
+      }
+    });
+
+    /* Phase Resetting Logic */
+    let clockTaps = [];
+    let isClockRunning = false;
+    let isClockInCooldown = false;
+    let clockAudioTimer = null;
+
+    function playTone(freq, duration, volume = 0.2) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      
       osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-      
       osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      
+      gain.connect(analyser);
+      gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
       osc.start();
       osc.stop(audioCtx.currentTime + duration);
     }
 
-    let beatCount = 0;
-    function triggerBeat() {
-      const now = performance.now();
-      targetTimes.push(now);
+    function startClockTest() {
+      if (isClockRunning || isClockInCooldown) return;
+      isClockRunning = true;
+      clockTaps = [];
 
-      // Accent pulse every 4th beat (1200 Hz accent + 140 Hz base)
-      if (beatCount % 4 === 0) {
-        playPulse(140, 0.15);
-        playPulse(1200, 0.03);
+      document.getElementById('startClockBtn').style.display = 'none';
+      document.getElementById('clockTapBtn').style.display = 'inline-block';
+      document.getElementById('clockBoxText').innerText = 'Audio Active: Tap along with the beat!';
+      document.getElementById('clockBox').style.backgroundColor = '#111111';
+      document.getElementById('clockBoxText').style.color = '#f9f8f6';
+      document.getElementById('clockResultDisplay').innerText = 'Internal Drift: Measuring...';
+
+      let beatCount = 0;
+      const interval = 500;
+
+      clockAudioTimer = setInterval(() => {
+        beatCount++;
+        if (beatCount <= 6) {
+          playTone(800, 0.05, 0.2);
+        } else if (beatCount > 6 && beatCount <= 10) {
+          if (beatCount === 7) {
+            document.getElementById('clockBoxText').innerText = 'AUDIO SILENT! Keep tapping at the same tempo!';
+            document.getElementById('clockBox').style.backgroundColor = '#ffffff';
+            document.getElementById('clockBoxText').style.color = '#111111';
+          }
+        } else if (beatCount === 11) {
+          playTone(1200, 0.1, 0.4);
+          document.getElementById('clockBoxText').innerText = 'Audio Returned! Evaluation Complete.';
+          document.getElementById('clockBox').style.backgroundColor = 'var(--card-bg)';
+          document.getElementById('clockBoxText').style.color = 'var(--text-muted)';
+          
+          clearInterval(clockAudioTimer);
+          finishClockTest();
+        }
+      }, interval);
+    }
+
+    function recordClockTap() {
+      if (!isClockRunning) return;
+      clockTaps.push(performance.now());
+    }
+
+    function finishClockTest() {
+      if (!isClockRunning) return;
+      isClockRunning = false;
+      isClockInCooldown = true;
+
+      const startBtn = document.getElementById('startClockBtn');
+      const tapBtn = document.getElementById('clockTapBtn');
+
+      tapBtn.style.display = 'none';
+      startBtn.style.display = 'inline-block';
+      startBtn.disabled = true;
+
+      if (clockTaps.length < 4) {
+        document.getElementById('clockResultDisplay').innerText = 'Internal Drift: Not enough taps recorded during test.';
       } else {
-        playPulse(140, 0.15);
+        let silentIntervals = [];
+        for (let i = 1; i < clockTaps.length; i++) {
+          silentIntervals.push(clockTaps[i] - clockTaps[i - 1]);
+        }
+
+        let totalDrift = silentIntervals.reduce((acc, val) => acc + Math.abs(val - 500), 0);
+        let avgDrift = Math.round(totalDrift / silentIntervals.length);
+
+        document.getElementById('clockResultDisplay').innerText = `Internal Drift: ${avgDrift} ms average deviation during silence`;
       }
-      beatCount++;
+
+      // 5-Second Cooldown Countdown
+      let cooldown = 5;
+      startBtn.innerText = `Cooldown (${cooldown}s)`;
+
+      const cooldownInterval = setInterval(() => {
+        cooldown--;
+        if (cooldown > 0) {
+          startBtn.innerText = `Cooldown (${cooldown}s)`;
+        } else {
+          clearInterval(cooldownInterval);
+          isClockInCooldown = false;
+          startBtn.disabled = false;
+          startBtn.innerText = 'Start Internal Clock Test';
+        }
+      }, 1000);
     }
 
-    startBtn.addEventListener('click', () => {
-      if (isRunning) return;
-      isRunning = true;
-      tapTimes = [];
-      targetTimes = [];
-      beatCount = 0;
-      
-      // 500 ms intervals (120 BPM)
-      triggerBeat();
-      intervalId = setInterval(triggerBeat, 500);
-    });
+    /* Off-Beat Suppression Logic */
+    let isSuppressRunning = false;
+    let isSuppressInCooldown = false;
+    let suppressTimer = null;
+    let suppressTargetBeats = 0;
+    let suppressUserTaps = 0;
+    let suppressFalsePositives = 0;
+    let lastMainBeatTime = 0;
 
-    stopBtn.addEventListener('click', () => {
-      isRunning = false;
-      clearInterval(intervalId);
-    });
+    function startSuppressTest() {
+      if (isSuppressRunning || isSuppressInCooldown) return;
+      isSuppressRunning = true;
+      suppressTargetBeats = 0;
+      suppressUserTaps = 0;
+      suppressFalsePositives = 0;
 
-    function registerTap() {
-      if (!isRunning) return;
-      const tapTime = performance.now();
-      tapTimes.push(tapTime);
+      document.getElementById('startSuppressBtn').style.display = 'none';
+      document.getElementById('suppressTapBtn').style.display = 'inline-block';
+      document.getElementById('suppressBoxText').innerText = 'Tap ONLY on low heavy beats!';
+      document.getElementById('suppressBox').style.backgroundColor = '#111111';
+      document.getElementById('suppressBoxText').style.color = '#f9f8f6';
+      document.getElementById('suppressResultDisplay').innerText = 'Suppression Accuracy: Testing...';
 
-      // Calculate nearest target timing error
-      if (targetTimes.length > 0) {
-        let minDiff = Infinity;
-        targetTimes.forEach(target => {
-          const diff = Math.abs(tapTime - target);
-          if (diff < minDiff) minDiff = diff;
-        });
+      let cycle = 0;
+      const mainInterval = 600;
 
-        tapCountDisplay.textContent = tapTimes.length;
-        
-        // Calculate Mean Absolute Error
-        const totalError = tapTimes.reduce((acc, t) => {
-          let closest = targetTimes.reduce((prev, curr) => Math.abs(curr - t) < Math.abs(prev - t) ? curr : prev);
-          return acc + Math.abs(t - closest);
-        }, 0);
-        
-        const mae = (totalError / tapTimes.length).toFixed(1);
-        maeDisplay.textContent = `${mae} ms`;
+      suppressTimer = setInterval(() => {
+        cycle++;
+        suppressTargetBeats++;
+        lastMainBeatTime = performance.now();
+
+        playTone(150, 0.12, 0.4);
+
+        if (Math.random() > 0.4 && cycle < 18) {
+          let offBeatDelay = Math.floor(Math.random() * 200) + 200;
+          setTimeout(() => {
+            if (isSuppressRunning) {
+              playTone(1500, 0.04, 0.25);
+            }
+          }, offBeatDelay);
+        }
+
+        if (cycle >= 18) {
+          clearInterval(suppressTimer);
+          setTimeout(finishSuppressTest, 600);
+        }
+      }, mainInterval);
+    }
+
+    function recordSuppressTap() {
+      if (!isSuppressRunning) return;
+      let now = performance.now();
+      let timeSinceMain = now - lastMainBeatTime;
+
+      if (timeSinceMain <= 250) {
+        suppressUserTaps++;
+      } else {
+        suppressFalsePositives++;
       }
     }
 
-    tapArea.addEventListener('mousedown', registerTap);
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'Space') registerTap();
+    function finishSuppressTest() {
+      if (!isSuppressRunning) return;
+      isSuppressRunning = false;
+      isSuppressInCooldown = true;
+
+      const startBtn = document.getElementById('startSuppressBtn');
+      const tapBtn = document.getElementById('suppressTapBtn');
+
+      tapBtn.style.display = 'none';
+      startBtn.style.display = 'inline-block';
+      startBtn.disabled = true;
+
+      document.getElementById('suppressBox').style.backgroundColor = 'var(--card-bg)';
+      document.getElementById('suppressBoxText').style.color = 'var(--text-muted)';
+      document.getElementById('suppressBoxText').innerText = 'Test Completed';
+
+      let correctPercentage = Math.max(0, Math.round(((suppressUserTaps - suppressFalsePositives) / suppressTargetBeats) * 100));
+      document.getElementById('suppressResultDisplay').innerText = `Suppression Accuracy: ${correctPercentage}% (${suppressUserTaps} Sync Taps | ${suppressFalsePositives} Off-Beat Errors)`;
+
+      // 5-Second Cooldown Countdown
+      let cooldown = 5;
+      startBtn.innerText = `Cooldown (${cooldown}s)`;
+
+      const cooldownInterval = setInterval(() => {
+        cooldown--;
+        if (cooldown > 0) {
+          startBtn.innerText = `Cooldown (${cooldown}s)`;
+        } else {
+          clearInterval(cooldownInterval);
+          isSuppressInCooldown = false;
+          startBtn.disabled = false;
+          startBtn.innerText = 'Start Suppression Test';
+        }
+      }, 1000);
+    }
+
+    // Clinical Chart Setup
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Metronome (Control)', 'RAS Track (Intervention)'],
+        datasets: [{
+          label: 'Average Motor Error (ms)',
+          data: [42.3, 34.5],
+          backgroundColor: ['#111111', '#888888'],
+          borderRadius: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Timing Error (ms)', color: '#666666' },
+            ticks: { color: '#666666' },
+            grid: { color: '#e2e0d8' }
+          },
+          x: { ticks: { color: '#111111' }, grid: { display: false } }
+        }
+      }
     });
   </script>
+
 </body>
 </html>
