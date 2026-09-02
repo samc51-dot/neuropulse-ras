@@ -28,7 +28,7 @@ The platform combines client-side Web Audio API audio rendering with high-resolu
 
 ## 🚀 Live Demo & Repository Access
 * **Live Telemetry App:** [https://samc51-dot.github.io/smart-beats-ras/](https://samc51-dot.github.io/smart-beats-ras/)
-* **Author:** [Your Name] (South Hills High School)
+* **Author:** Samuel Chae (South Hills High School)
 * **Status:** Preprint manuscript prepared for *bioRxiv* / *IEEE Transactions on Neural Systems and Rehabilitation Engineering*.
 
 ---
